@@ -1,6 +1,6 @@
 import { ForecastData } from './WeatherForecastTypes';
 
-// Map NWS cardinal wind direction strings to rotation degrees for the arrow icon.
+// Maps cardinal wind directions to degrees for arrow rotation.
 const directionToDegrees: Record<string, number> = {
   N: 0,
   NNE: 22.5,
@@ -21,70 +21,72 @@ const directionToDegrees: Record<string, number> = {
 };
 
 /**
- * Render a pivoted hourly weather table for the first 10 hours of a
- * National Weather Service forecast.
+ * WeatherForecastDisplay renders a pivoted hourly weather forecast table.
  *
- * Layout: time slots run as columns; weather attributes (icon, temperature,
- * wind direction, wind speed) run as rows. Rotate the wind direction arrow
- * using the directionToDegrees lookup; expose the raw cardinal string as a tooltip.
+ * Key features:
+ * - Displays the first 10 hours of forecast data.
+ * - Shows time, weather icon with short forecast, temperature, wind direction, and wind speed.
+ * - Wind direction is visualized as a rotated arrow based on cardinal direction.
+ * - Table layout uses time as columns, with weather attributes as rows.
+ * - Provides tooltips for wind directions for clarity.
  */
 type WeatherDisplayProps = {
   forecast: ForecastData;
 };
 
 export const WeatherForecastDisplay = ({ forecast }: WeatherDisplayProps) => {
-  const periods = forecast.properties.periods.slice(0, 10); // Display 10 hours of forecast data.
+  const periods = forecast.properties.periods.slice(0, 10); // Select the first 10 forecast periods (10 hours)
 
   return (
     <div className="weather-forecast-display">
       <h3>
         Weather Display ({new Date(periods[0].startTime).toLocaleDateString()})
       </h3>
-      <h4>Hourly forecast</h4>
-      {/* Pivoted table: time as columns, weather attributes as rows. */}
+      <h5>Hourly forecast</h5>
+      {/* Render the pivoted forecast table */}
       <table className="weather-forecast-table">
         <thead>
-          {/* Header row: one column per forecast hour. */}
+          {/* Render the header row with times */}
           <tr>
-            <th scope="col">Time</th>
+            <th>Time</th>
             {periods.map((item) => {
               const time = new Date(item.startTime);
               const hour = `0${time.getHours()}`.slice(-2);
               const minute = `0${time.getMinutes()}`.slice(-2);
-              return <th scope="col" key={item.startTime}>{`${hour}:${minute}`}</th>;
+              return <th key={item.startTime}>{`${hour}:${minute}`}</th>;
             })}
           </tr>
         </thead>
         <tbody>
-          {/* Row 1: weather icon and short forecast description. */}
+          {/* Render the row with weather icons and short forecasts */}
           <tr>
-            <th scope="row" className="row-header">Weather</th>
+            <td className="row-header">Weather</td>
             {periods.map((item) => (
               <td key={item.startTime} className="icon-row">
                 <img
                   src={item.icon}
                   width="40"
                   height="40"
-                  alt={item.shortForecast}
+                  alt="Diurnal cycle icon"
                 />
                 <div>{item.shortForecast}</div>
               </td>
             ))}
           </tr>
-          {/* Row 2: temperature with unit. */}
+          {/* Render the row with temperatures */}
           <tr>
-            <th scope="row" className="row-header">Temperature</th>
+            <td className="row-header">Temperature</td>
             {periods.map((item) => (
               <td key={item.startTime} className="darker-row">
                 {`${item.temperature}°${item.temperatureUnit}`}
               </td>
             ))}
           </tr>
-          {/* Row 3: wind direction as a rotated arrow; title exposes the cardinal string as a tooltip. */}
+          {/* Render the row with wind directions */}
           <tr>
-            <th scope="row" className="row-header">Wind direction</th>
+            <td className="row-header">Wind direction</td>
             {periods.map((item) => {
-              // Convert the cardinal direction string to a CSS rotation angle.
+              // Convert cardinal wind directions to degrees for arrow rotation
               const deg = directionToDegrees[item.windDirection] ?? 0;
 
               return (
@@ -101,9 +103,9 @@ export const WeatherForecastDisplay = ({ forecast }: WeatherDisplayProps) => {
               );
             })}
           </tr>
-          {/* Row 4: wind speed string (e.g. "10 mph") from the API response. */}
+          {/* Render the row with wind speeds */}
           <tr>
-            <th scope="row" className="row-header">Wind speed</th>
+            <td className="row-header">Wind speed</td>
             {periods.map((item) => (
               <td key={item.startTime} className="lighter-row">
                 {item.windSpeed}

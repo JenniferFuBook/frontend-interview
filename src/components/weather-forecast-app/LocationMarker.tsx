@@ -5,57 +5,50 @@ import { useWeatherForecast } from './useWeatherForecast';
 import { WeatherForecastDisplay } from './WeatherForecastDisplay';
 
 /**
- * Place a marker at the active position and show a popup with the hourly
- * weather forecast for that location.
- *
- * Key behaviors:
- * - Listen for map click events and update the shared PositionContext on each click.
- * - Fetch a fresh weather forecast whenever the position changes.
- * - Smoothly pan the map to the new position and auto-open the popup after panning.
- * - Show a loading spinner, an error message, or the forecast table inside the popup.
+ * LocationMarker is a component that displays a marker on the map along with 
+ * a popup containing the weather forecast for the current position.
+ * 
+ * Key features:
+ * - Subscribes to the position from the PositionContext.
+ * - Updates the position when the user clicks on the map.
+ * - Fetches weather forecast data for the current position.
+ * - Smoothly pans the map to the marker and automatically opens the popup.
+ * - Handles loading and error states while fetching weather data.
  */
 export const LocationMarker = () => {
-  // Pull position and setter from context to keep the marker and map center in sync.
+  // Access position and setPosition from context to manage map state
   const { position, setPosition } = usePosition();
 
-  // Hold a ref to the Leaflet marker instance to call openPopup() programmatically.
+  // Reference the marker to programmatically control the popup
   const markerRef = useRef<L.Marker>(null);
 
-  // Register a map-level click handler to update position when the user clicks the map.
+  // Register map click events to update the position when the user clicks
   const map = useMapEvents({
     click(e) {
       setPosition(e.latlng);
     },
   });
 
-  // Fetch the hourly forecast for the current position; re-fetch on every position change.
+  // Fetch the weather forecast for the current position
   const { forecast, loading, error } = useWeatherForecast(position);
 
   useEffect(() => {
-    if (!position) {
-      return;
+    if (position) {
+      // Pan smoothly to the updated position while preserving zoom
+      map.flyTo(position, map.getZoom());
+
+      // Open the popup automatically when position or forecast updates
+      setTimeout(() => markerRef.current?.openPopup(), 0);
     }
-
-    // Open the popup only after Leaflet finishes the flyTo animation.
-    const openPopup = () => markerRef.current?.openPopup();
-    map.once('moveend', openPopup);
-
-    // Animate the map to the new position while keeping the current zoom level.
-    map.flyTo(position, map.getZoom());
-
-    // Remove the listener if the position changes again before the animation ends.
-    return () => {
-      map.off('moveend', openPopup);
-    };
-  }, [position, map]);
+  }, [position, map, forecast, loading, error]);
 
   return (
     <Marker position={position} ref={markerRef}>
       <Popup
-        autoPan={true} // Pan the map if the popup would render outside the viewport.
-        autoPanPadding={[50, 50]} // Keep 50px of map visible on each side of the popup.
+        autoPan={true} // Enable automatic panning to keep the popup in view
+        autoPanPadding={[50, 50]} // Apply padding to prevent the popup from hitting map edges
       >
-        {/* Render loading, error, or forecast content depending on fetch state. */}
+        {/* Handle loading, error, and success states for the forecast */}
         {loading ? (
           <div>Loading...</div>
         ) : error ? (
