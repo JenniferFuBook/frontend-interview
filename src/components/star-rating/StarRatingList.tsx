@@ -7,11 +7,9 @@ type StarRatingListProps = {
   activeColor: string;
   inactiveColor: string;
   starSize: string;
-  hoverIndex: number;
   onHover: (e: React.MouseEvent<HTMLDivElement>) => void;
   onLeave: () => void;
   onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
-  onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void;
 };
 
 export const StarRatingList = ({
@@ -20,28 +18,24 @@ export const StarRatingList = ({
   activeColor,
   inactiveColor,
   starSize,
-  hoverIndex,
   onHover,
   onLeave,
   onClick,
-  onKeyDown,
 }: StarRatingListProps) => {
   return (
     <div
       className="star-list-container"
-      role="radiogroup" // Group the individual star radio buttons for screen readers.
-      onMouseMove={onHover} // Use onMouseMove on the container (not onMouseEnter per star) to track sub-star pointer position for half-star detection.
+      onMouseMove={onHover} // Use onMouseMove to track hover over stars
       onMouseLeave={onLeave}
       onClick={onClick}
-      onKeyDown={onKeyDown}
     >
-      {/* Render one Star per slot; compute fill from the active highlight range. */}
+      {/* Generate an array of stars based on numOfStars */}
       {Array.from({ length: numOfStars }).map((_, i) => {
-        const startIndex = i + 1; // Convert 0-based map index to 1-based star index.
+        const startIndex = i + 1; // 1-based index for stars
         return (
           <Star
             key={i}
-            index={startIndex}
+            index={startIndex} // Star position in the list
             fill={
               startIndex <= Math.floor(activeUntil)
                 ? 1
@@ -52,7 +46,6 @@ export const StarRatingList = ({
             activeColor={activeColor}
             inactiveColor={inactiveColor}
             starSize={starSize}
-            hoverIndex={hoverIndex}
           />
         );
       })}
