@@ -1,23 +1,9 @@
-import { createContext, useContext } from 'react';
-import type { Dispatch, SetStateAction } from 'react';
-import type { LatLngExpression } from 'leaflet';
-
-export type PositionContextType = {
-  position: LatLngExpression;
-  setPosition: Dispatch<SetStateAction<LatLngExpression>>;
-};
-
-// Default to undefined so usePosition throws a clear error if accessed outside the provider.
-// The context lives here, outside the provider's component file, so that editing
-// the provider keeps React Fast Refresh working.
-export const PositionContext = createContext<PositionContextType | undefined>(
-  undefined
-);
+import { useContext } from 'react';
+import { PositionContext } from './PositionContext';
 
 /**
- * Provide access to the PositionContext value.
- * Throw a descriptive error if called outside of PositionProvider
- * to make misconfigured component trees easier to diagnose.
+ * Custom hook to access the position context.
+ * Throws an error if used outside of PositionProvider.
  */
 export const usePosition = () => {
   const context = useContext(PositionContext);

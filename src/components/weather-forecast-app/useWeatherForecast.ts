@@ -3,26 +3,30 @@ import type { ForecastData } from './WeatherForecastTypes';
 import { useEffect, useState } from 'react';
 
 /**
- * Fetch hourly weather forecast data for a given geographic position using
- * the two-step National Weather Service API: first fetch grid metadata for
- * the coordinates, then fetch the hourly forecast URL from that metadata.
- *
- * Key behaviors:
- * - Return forecast data, a loading flag, and an error string.
- * - Re-fetch automatically whenever position changes.
- * - Abort in-flight requests when position changes or the component unmounts,
- *   preventing stale responses from overwriting newer state.
- * - Positions outside the United States will fail at the metadata step;
- *   surface the error state to the caller for display in the UI.
+ * useWeatherForecast is a custom React hook that fetches hourly weather 
+ * forecast data for a given geographic position using the National Weather 
+ * Service API, while managing loading and error states.
+ * 
+ * Key features:
+ * - Accepts a Leaflet LatLngExpression (or null) as the location.
+ * - Returns the forecast data, a loading state, and an error message if any.
+ * - Fetches metadata for the given position, then uses it to retrieve
+ *   the hourly forecast.
+ * - Positions outside the United States may not have forecast data available.
+ *   In such cases, the hook will return an error state that can be displayed
+ *   in the UI.
+ * 
+ * Usage:
+ * const { forecast, loading, error } = useWeatherForecast(position);
  */
 export const useWeatherForecast = (position: LatLngExpression | null) => {
-  // Hold the parsed forecast response once the two-step fetch completes.
+  // Define state to hold the forecast data
   const [forecast, setForecast] = useState<ForecastData | null>(null);
 
-  // True while any fetch is in progress.
+  // Track the loading state during fetch operations
   const [loading, setLoading] = useState(false);
 
-  // Non-null when either fetch step fails or the API returns a non-OK status.
+  // Track any errors that occur during fetching
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -30,10 +34,10 @@ export const useWeatherForecast = (position: LatLngExpression | null) => {
       return;
     }
 
-    // Cancel in-progress requests when position changes or the component unmounts.
+    // Use AbortController to cancel in-progress requests when position changes or component unmounts.
     const abortController = new AbortController();
 
-    const fetchWeather = async () => {
+    const fetchWeather = async () => { // Define an async function to fetch weather data
       try {
         setLoading(true);
         setError(null);
@@ -42,10 +46,10 @@ export const useWeatherForecast = (position: LatLngExpression | null) => {
           ? position
           : [position.lat, position.lng];
 
-        // Step 1: Fetch grid metadata — the NWS API requires this to resolve the forecast URL.
+        // Step 1: Fetch metadata for the given coordinates
         const metadataRes = await fetch(
           `https://api.weather.gov/points/${lat},${lon}`,
-          { signal: abortController.signal },
+          { signal: abortController.signal }
         );
         if (!metadataRes.ok) {
           console.error('Failed to fetch weather metadata');
@@ -55,13 +59,13 @@ export const useWeatherForecast = (position: LatLngExpression | null) => {
 
         const metadata = await metadataRes.json();
 
-        if (!metadata.properties.forecastHourly) {
+         if (!metadata.properties.forecastHourly) {
           console.error('Failed to fetch metadata json value');
           setError('Failed to fetch metadata json value.');
           return;
         }
 
-        // Step 2: Fetch the hourly forecast from the URL returned in the metadata.
+        // Step 2: Fetch the hourly forecast URL from the metadata
         const forecastRes = await fetch(metadata.properties.forecastHourly, {
           signal: abortController.signal,
         });
@@ -75,26 +79,18 @@ export const useWeatherForecast = (position: LatLngExpression | null) => {
 
         setForecast(forecastData);
       } catch (err) {
-        // Ignore aborted requests — a newer fetch or an unmount canceled this one.
-        if ((err as Error).name === 'AbortError') {
-          return;
-        }
         console.error((err as Error).message);
         setError('Failed to fetch forecast.');
       } finally {
-        // Skip the loading reset for aborted requests so a newer fetch keeps its own loading state.
-        if (!abortController.signal.aborted) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
+      // Cleanup: abort pending fetch requests when effect dependencies change or component unmounts
+      return () => {
+        abortController.abort();
+      };
     };
 
     fetchWeather();
-
-    // Abort any pending fetch when the effect re-runs or the component unmounts.
-    return () => {
-      abortController.abort();
-    };
   }, [position]);
 
   return { forecast, loading, error };
