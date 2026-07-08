@@ -1,27 +1,27 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { StarRatingList } from './StarRatingList';
 import { StarRatingLabel } from './StarRatingLabel';
 import { calculateNewRating } from './utils';
 import './index.css';
 
 type StarRatingProps = {
-  // 1-based rating; -1 means "not yet rated"
+  // Initial rating (1-based; -1 means "not rated")
   defaultRating?: number;
-  // Total number of stars to render (defaults to 5)
+  // Number of stars to render (defaults to 5)
   numOfStars?: number;
-  // Fill color for selected stars
+  // Color of selected/active stars
   activeColor?: string;
-  // Fill color for unselected stars
+  // Color of unselected/inactive stars
   inactiveColor?: string;
-  // CSS size applied to width, height, and font-size (e.g. '24px', '1.5rem')
+  // CSS size (e.g., '24px', '1.5rem')
   starSize?: string;
-  // Placeholder label text shown when no rating is selected
+  // Optional custom label text. If omitted, a default label is generated
   text?: string;
-  // Whether to render the text label beneath the stars
+  // Whether to show the text label beneath stars
   showLabel?: boolean;
 };
 
-// Orchestrate click, hover, and keyboard state; delegate rendering to StarRatingList.
+// Main container component (logic layer)
 const StarRating = ({
   defaultRating = -1,
   numOfStars = 5,
@@ -31,74 +31,51 @@ const StarRating = ({
   text = 'Not rated',
   showLabel = true,
 }: StarRatingProps) => {
-  // Persist the selected rating across re-renders.
+  // Track the current rating (persistent after click)
   const [rating, setRating] = useState<number>(defaultRating);
 
-  // Temporarily highlight stars under the cursor; reset to -1 on mouse leave.
+  // Track the hover index (temporary, resets on mouse leave)
   const [hoverIndex, setHoverIndex] = useState<number>(-1);
 
-  // Reference the wrapper div to locate the rendered stars for keyboard focus control.
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // Highlight stars up to whichever index is higher — the hover preview or the saved rating.
+  // Determine which stars should be highlighted by either rating or hover
   const activeUntil = Math.max(rating, hoverIndex);
 
-  // Commit the clicked star's rating to state.
+  // Event handler for clicking a star
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Delegate index resolution to a utility that reads the data attribute from the DOM.
+    // Use a utility function to obtain the index of the clicked star
     const index = calculateNewRating(e);
     if (index !== undefined) {
-      // Toggle to a half-star if the same star is clicked again.
+      // Determine new rating (toggle if same star clicked)
       const newRating = index === rating ? index - 0.5 : index;
       setRating(newRating);
-      setHoverIndex(-1); // Clear hover highlight after the click is committed.
+      setHoverIndex(-1); // Reset hover state on click
     }
   };
 
-  // Update the hover highlight as the pointer moves across stars.
+  // Event handler for hovering over a star
   const handleHover = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Delegate index resolution to the same utility used by handleClick.
+    // Use a utility function to obtain the index of the hover star
     const index = calculateNewRating(e);
     if (index !== undefined && index !== hoverIndex) {
       setHoverIndex(index);
     }
   };
 
-  // Clear the hover highlight when the pointer exits the star list.
+  // Reset hover state on leave
   const handleLeave = () => setHoverIndex(-1);
 
-  // Allow arrow key navigation across stars for keyboard users.
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    // Query all radio stars from the wrapper ref to programmatically move focus.
-    const stars = containerRef.current?.querySelectorAll('[role="radio"]');
-    if (!stars) {
-      return;
-    }
-
-    if (e.key === 'ArrowRight') { // Step up by half a star; wrap back to 0 past the last star.
-      const newRating = rating + 0.5 <= numOfStars ? rating + 0.5 : 0;
-      setRating(newRating);
-      (stars[Math.ceil(newRating) - 1] as HTMLElement).focus();
-    } else if (e.key === 'ArrowLeft') { // Step down by half a star; wrap to the last star below 0.
-      const newRating = rating - 0.5 >= 0 ? rating - 0.5 : numOfStars;
-      setRating(newRating);
-      (stars[Math.ceil(newRating) - 1] as HTMLElement).focus();
-    }
-  };
-
-  // Show "Rated N" once a rating is selected; fall back to the placeholder text.
+  // Determine label text (either default text or "Rated X")
   const label = rating > 0 ? `Rated ${rating}` : text;
 
   return (
     <div
-      ref={containerRef}
       style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
       }}
     >
-      {/* Render the star list via StarRatingList. */}
+      {/* Star list (UI layer) */}
       <StarRatingList
         numOfStars={numOfStars}
         activeUntil={activeUntil}
@@ -109,9 +86,8 @@ const StarRating = ({
         onHover={handleHover}
         onLeave={handleLeave}
         onClick={handleClick}
-        onKeyDown={handleKeyDown}
       />
-      {/* Render the label below the stars when showLabel is true. */}
+      {/* Optional label (UI layer) */}
       {showLabel && <StarRatingLabel text={label} />}
     </div>
   );

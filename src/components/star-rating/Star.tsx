@@ -16,28 +16,24 @@ export const Star = ({
   hoverIndex,
 }: StarProps) => {
   return (
-    <span // Position the inactive and active layers on top of each other to create the layered star effect.
-      // Apply the bounce animation only to the star currently under the cursor.
+    <span // Container for stars
+      // Dynamically apply the bounce animation to whichever star is hovered
       className={
-        hoverIndex === index || hoverIndex === index - 0.5 ? 'bounce' : ''
+        hoverIndex === index || hoverIndex === index - 0.5 ? 'bounce' : '' 
       }
-      data-star-index={index} // Pass the star index to calculateNewRating via data attribute.
+      data-star-index={index} // Assign a data attribute for star identification
       style={{
         position: 'relative',
         display: 'inline-block',
-        // Apply a uniform size to layout dimensions and the Unicode star character.
+        // Control size of the star
         width: starSize,
         height: starSize,
         fontSize: starSize,
         lineHeight: 1,
-        cursor: 'pointer', // Signal that the star is clickable.
+        cursor: 'pointer', // Indicate interactivity
       }}
-      role="radio" // Treat this star as a radio button within the radiogroup.
-      aria-label={`Rate ${index}${fill === 0.5 ? ' and a half' : ''} stars`} // Announce the star index and half-star state to screen readers.
-      aria-checked={fill > 0} // Mark the star as selected when it carries any fill.
-      tabIndex={0} // Include in the tab order for keyboard navigation.
     >
-      {/* Render the background star in inactive color — always visible beneath the active layer. */}
+      {/* Base (inactive) star */}
       <span
         style={{
           color: inactiveColor,
@@ -47,12 +43,11 @@ export const Star = ({
           width: '100%',
           height: '100%',
         }}
-        aria-hidden="true" // Hide from screen readers — the accessible label is on the parent span.
       >
-        ★
+        ★ {/* Unicode star character */}
       </span>
 
-      {/* Render the foreground star clipped to 0%, 50%, or 100% fill. */}
+      {/* Foreground (active) star with clip */}
       <span
         style={{
           color: activeColor,
@@ -62,12 +57,11 @@ export const Star = ({
           width: fill === 1 ? '100%' : fill === 0.5 ? '50%' : '0%',
           height: '100%',
           overflow: 'hidden',
-          // Animate width changes so half-star fills interpolate smoothly.
-          transition: 'width 0.2s ease-in-out',
+          // Smoothly interpolate width changes when a star fills or empties
+          transition: 'width 0.2s ease-in-out', 
         }}
-        aria-hidden="true"
       >
-        ★
+        ★ {/* Unicode star character */}
       </span>
     </span>
   );
