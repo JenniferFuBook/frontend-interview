@@ -4,27 +4,27 @@ import { usePosition } from './usePosition';
 import { locationService } from './locationService';
 
 /**
- * LocationSearch is a React component that provides a search bar overlay
- * for the Leaflet map. Users can type a location name, which is geocoded
- * using the OpenStreetMap Nominatim API via the locationService utility.
+ * Render a search form overlaid on the Leaflet map. Accept a place name,
+ * geocode it via the Nominatim API, and update the shared PositionContext
+ * so the map flies to the result.
  *
- * Key features:
- * - Updates the global map position via the PositionContext.
- * - Prevents map interactions (click and scroll) while typing or submitting.
- * - Clears the input field after a successful search.
- * - Handles errors and empty results gracefully.
+ * Key behaviors:
+ * - Disable Leaflet's built-in click and scroll capture on the form element
+ *   so typing and scrolling inside the input do not interact with the map.
+ * - Clear the input field immediately on submit, before the async fetch resolves.
+ * - Silently ignore submissions of blank or whitespace-only queries.
  */
 export const LocationSearch = () => {
-  // Local state to store the search query
+  // Controlled input value for the search field.
   const [query, setQuery] = useState('');
 
-  // Access the setPosition function from context to update the map center
+  // Call setPosition from context to move the map center when a location is found.
   const { setPosition } = usePosition();
 
-  // Reference the form container to manage Leaflet event propagation
+  // Hold a ref to the form DOM node to disable Leaflet event propagation.
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Disable click and scroll propagation to prevent interfering with the map.
+  // Disable Leaflet's pointer and scroll capture on the form so the input remains usable while the map is active.
   useEffect(() => {
     const container = formRef.current;
     if (container) {
@@ -33,15 +33,15 @@ export const LocationSearch = () => {
     }
   }, []);
 
-  // Handle the search form submission
+  // Geocode the query and update the map position on a valid result.
   const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    setQuery(''); // Clear the input field after search
+    e.preventDefault(); // Prevent page reload on form submit.
+    setQuery(''); // Clear the input immediately, before the fetch resolves.
     if (query.trim().length === 0) {
       return;
     }
 
-    // Call the location service to geocode the query string
+    // Delegate geocoding to locationService, which calls the Nominatim API.
     const queriedPosition = await locationService(query);
     if (queriedPosition) {
       setPosition(queriedPosition);
@@ -50,14 +50,15 @@ export const LocationSearch = () => {
   };
 
   return (
-    // Render the search form overlay on the map
+    // Render the form inside the Leaflet map DOM, isolated from map events.
     <form className="location-search" ref={formRef} onSubmit={handleSearch}>
       <input
         id="search-bar"
         type="text"
+        aria-label="Search location"
         value={query}
         placeholder="Search location..."
-        // Update the query state as the user types
+        // Keep query state in sync with user input on every keystroke.
         onChange={(e) => setQuery(e.target.value)}
       />
       <button type="submit">Go</button>

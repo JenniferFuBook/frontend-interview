@@ -1,34 +1,33 @@
-// Find the closest star element from the event target
+// Traverse the DOM upward from the event target to find the nearest star wrapper.
 export const findStarElement = (target: EventTarget) => {
-  // Event targets are not guaranteed to be DOM elements
+  // Event targets are not guaranteed to be DOM elements (e.g. text nodes or window).
   if (!(target instanceof Element)) {
     return null;
   }
 
-  // closest() safely traverses up the DOM to find the star wrapper
+  // Use closest() to walk up the tree — the pointer may land on a child span inside the star.
   return target.closest('[data-star-index]') as HTMLElement | null;
 };
 
-// Calculate the new rating based on click position
+// Compute the new rating from a click or hover event's position within the star.
 export const calculateNewRating = (e: React.MouseEvent) => {
-  // Identify which star was interacted with
+  // Resolve the star element the event originated from.
   const el = findStarElement(e.target);
   if (!el) {
     return;
   }
 
-  // Get the star's position and dimensions
+  // Measure the star's bounding box to determine left/right halves.
   const { left, width } = el.getBoundingClientRect();
 
-   // Determine click position relative to the star
+  // Calculate offset from the star's left edge to determine which half the pointer is in.
   const offsetX = e.clientX - left;
 
-  // Clicking the left half selects a half-star rating
+  // Select a half-star rating for the left half; a full star for the right half.
   const isHalf = offsetX < width / 2;
 
-  // Read the star index from the dataset (1-based)
+  // Read the 1-based star index stored in the data attribute by StarRatingList.
   const idx = Number(el.dataset.starIndex);
 
-  // Return the computed rating value
   return isHalf ? idx - 0.5 : idx;
 };

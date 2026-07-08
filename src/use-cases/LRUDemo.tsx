@@ -29,12 +29,14 @@ export const LRUDemo = () => {
         value={key}
         onChange={(e) => setKey(Number(e.target.value))}
         placeholder="Key"
+        aria-label="Cache key"
       />
       <input
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Value"
+        aria-label="Cache value"
       />
       <div>
         <button onClick={handlePut} disabled={value.trim() === ''}>

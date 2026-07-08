@@ -23,6 +23,7 @@ const DebounceExample = () => {
       value={searchTerm}
       onChange={handleSearch}
       placeholder="Search..."
+      aria-label="Search"
       spellCheck="false"
     />
   );

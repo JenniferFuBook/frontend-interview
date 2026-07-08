@@ -3,7 +3,7 @@ import { MouseEventHandler, useEffect } from 'react';
 type IconButtonProps = {
   icon: string;
   altText?: string;
-  handleClick: MouseEventHandler<HTMLButtonElement>;
+  handleClick?: MouseEventHandler<HTMLButtonElement>;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const IconButton = ({

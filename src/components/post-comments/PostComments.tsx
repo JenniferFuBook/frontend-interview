@@ -20,7 +20,7 @@ const PostComments = ({ initComments }: PostCommentsProps) => {
   const handleChange= (e: React.FormEvent<HTMLInputElement>) => {
     setText((e.target as HTMLInputElement).value);
   }
-  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setText('');
     setComments([...comments, { username: 'currentUser', comment: text }]);
@@ -29,24 +29,25 @@ const PostComments = ({ initComments }: PostCommentsProps) => {
     <div className="post-comments">
       <h2>{comments.length} comments:</h2>
       <ul>
+        {/* Comments are append-only, so the index is a stable key here. */}
         {comments.map((comment, index) => (
           <li key={index}>
             <Comment {...comment} />
           </li>
         ))}
       </ul>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           value={text}
           placeholder="Write a comment..."
+          aria-label="Write a comment"
           onChange={handleChange}
         />
         <IconButton
           className="submit-button"
           type="submit"
           icon={submitIcon}
-          handleClick={handleSubmit}
         />
       </form>
     </div>

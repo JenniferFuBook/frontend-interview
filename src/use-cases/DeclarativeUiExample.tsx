@@ -19,8 +19,8 @@ const RemoveItemList = ({ initialItems = [] }: ItemListProps) => {
         Remove Item
       </button>
       <ul>
-        {items.map((item, index) => (
-          <li key={index}>{item}</li>
+        {items.map((item) => (
+          <li key={item}>{item}</li>
         ))}
       </ul>
     </>

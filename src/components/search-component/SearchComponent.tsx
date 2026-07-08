@@ -15,13 +15,18 @@ const SearchComponent = ({ items }: SearchComponentProps) => {
 
     // Low-priority update to filter the list of items
     startTransition(async () => {
-      await new Promise((resolve) => setTimeout(() => {
-        const filteredResults = items.filter((item) =>
-          item.toLowerCase().includes(value.toLowerCase())
+      // Simulate a slow data source.
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // After an await, wrap state updates in another startTransition
+      // so React keeps them as part of the same transition.
+      startTransition(() => {
+        setResults(
+          items.filter((item) =>
+            item.toLowerCase().includes(value.toLowerCase())
+          )
         );
-        setResults(filteredResults);
-        resolve(filteredResults);
-      }, 1000));
+      });
     });
   };
 
@@ -32,11 +37,12 @@ const SearchComponent = ({ items }: SearchComponentProps) => {
         value={query}
         onChange={handleSearch}
         placeholder="Search items..."
+        aria-label="Search items"
       />
       {isPending && <p>Loading...</p>}
       <ul>
-        {results.map((item, index) => (
-          <li key={index}>{item}</li>
+        {results.map((item) => (
+          <li key={item}>{item}</li>
         ))}
       </ul>
     </>

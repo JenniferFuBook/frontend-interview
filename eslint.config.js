@@ -5,7 +5,9 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  // src/snippets holds standalone book fragments (e.g., the any-versus-unknown
+  // demo), which intentionally violate lint rules they exist to illustrate.
+  { ignores: ['dist', 'src/snippets'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],

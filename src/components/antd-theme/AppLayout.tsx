@@ -28,7 +28,7 @@ const AppLayout = ({ isDarkMode, onToggleTheme }: AppLayoutProps) => (
     <Content style={{ padding: '2rem' }}>
       <Title level={4}>Welcome</Title>
       <Paragraph>
-        Toggle between light and dark themes using Ant Design v5’s{' '}
+        Toggle between light and dark themes using Ant Design’s{' '}
         <code>ConfigProvider</code>.
       </Paragraph>
       <Button type="dashed">Learn More</Button>

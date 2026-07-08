@@ -4,7 +4,7 @@ import * as Styled from './styles';
 type IconButtonProps = {
   icon: string;
   altText?: string;
-  handleClick: MouseEventHandler<HTMLButtonElement>;
+  handleClick?: MouseEventHandler<HTMLButtonElement>;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const IconButton = ({

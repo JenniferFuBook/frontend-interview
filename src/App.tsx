@@ -8,111 +8,73 @@
  * @author Jennifer Fu
  */
 // import GlobalStyle from './styles/GlobalStyle';
-import BlogPostExample from './use-cases/BlogPostExample';
-import CssSpecificityExample from './use-cases/CssSpecificityExample';
-import DragAndDrop from './components/drag-and-drop/DragAndDrop';
-import FormSimple from './components/form/FormSimple';
-import FormAdvanced from './components/form/FormAdvanced';
-import Timer from './use-cases/Timer';
-import YouTubeApiExample from './use-cases/YouTubeApiExample';
-import DeclarativeUiExample from './use-cases/DeclarativeUiExample';
-import BlogPostApp from './use-cases/BlogPostApp';
-import PropDrillingExample from './use-cases/PropDrillingExample';
-import ContextApiExample from './use-cases/ContextApiExample';
-import SearchComponentExample from './use-cases/SearchComponentExample';
-import DebounceExample from './use-cases/DebounceExample';
-import TooltipExample from './use-cases/TooltipExample';
-import ModularRouteApp from './use-cases/ModularRouteApp';
-import ReactRouterExample from './use-cases/ReactRouterExample';
-import NestedRoutesExample from './use-cases/NestedRoutesExample';
-import ProtectedRouteExample from './use-cases/ProtectedRouteExample';
 import AntDThemeExample from './use-cases/AntDThemeExample';
-import AutoAntDThemeExample from './use-cases/AutoAntDThemeExample';
-import ReactWindowListExample from './use-cases/ReactWindowListExample';
-import ReactWindowGridExample from './use-cases/ReactWindowGridExample';
-import ReactVirtualizedListExample from './use-cases/ReactVirtualizedListExample';
-import ReactVirtuosoListExample from './use-cases/ReactVirtuosoListExample';
-import FormSimpleWithAxios from './components/form/FormSimpleWithAxios';
-import TanStackUseQueryExample from './use-cases/TanStackUseQueryExample';
-import TanStackUseMutationExample from './use-cases/TanStackUseMutationExample';
-import GraphQLExample from './use-cases/GraphQLExample';
+import BlogPostApp from './use-cases/BlogPostApp';
+import BlogPostExample from './use-cases/BlogPostExample';
+import ContextApiExample from './use-cases/ContextApiExample';
+import CssSpecificityExample from './use-cases/CssSpecificityExample';
+import DebounceExample from './use-cases/DebounceExample';
+import DeclarativeUiExample from './use-cases/DeclarativeUiExample';
+import DragAndDrop from './components/drag-and-drop/DragAndDrop';
 import FaviconExample from './use-cases/FaviconExample';
-import RenderComponentExample from './use-cases/RenderComponentExample';
-import UsePromiseExample from './use-cases/UsePromiseExample';
-import FlagIsMountedExample from './use-cases/FlagIsMountedExample';
-import AbortControllerExample from './use-cases/AbortControllerExample';
-import ErrorBoundaryExample from './use-cases/ErrorBoundaryExample';
-import FCErrorBoundaryExample from './use-cases/FCErrorBoundaryExample';
-import ViteApiProxyExample from './use-cases/ViteApiProxyExample';
+import FormAdvanced from './components/form/FormAdvanced';
+import FormSimple from './components/form/FormSimple';
 import LRUDemo from './use-cases/LRUDemo';
+import ModularRouteApp from './use-cases/ModularRouteApp';
+import NestedRoutesExample from './use-cases/NestedRoutesExample';
+import PropDrillingExample from './use-cases/PropDrillingExample';
+import ProtectedRouteExample from './use-cases/ProtectedRouteExample';
+import ReactRouterExample from './use-cases/ReactRouterExample';
+import RenderComponentExample from './use-cases/RenderComponentExample';
+import SearchComponentExample from './use-cases/SearchComponentExample';
 import StarRatingExample from './use-cases/StarRatingExample';
+import Timer from './use-cases/Timer';
+import TooltipExample from './use-cases/TooltipExample';
 import WeatherForecastApp from './use-cases/WeatherForecastApp';
-import AccessibleModalExample from './use-cases/AccessibleModalExample';
 
 function App() {
-  const exampleName = import.meta.env.VITE_NAME || 'BlogPostExample'; 
+  const exampleName = import.meta.env.VITE_NAME || 'BlogPostExample';
   // exampleName is Default to BlogPostExample if not set in environment variables
   // you can also hardcode it to any example you want to test, e.g., 'CssSpecificityExample'
 
   return (
     <>
       {/* <GlobalStyle /> */}
-      
-      {/* Chapter 2 examples */}
+
+      {/* Chapter 3 examples — Frontend system design */}
+      {exampleName === 'StarRatingExample' && <StarRatingExample />}
+      {exampleName === 'WeatherForecastApp' && <WeatherForecastApp />}
+
+      {/* Chapter 4 examples — HTML, CSS, and the fundamentals */}
       {exampleName === 'BlogPostExample' && <BlogPostExample />}
       {exampleName === 'CssSpecificityExample' && <CssSpecificityExample />}
       {exampleName === 'DragAndDrop' && <DragAndDrop />}
       {exampleName === 'FormSimple' && <FormSimple />}
       {exampleName === 'FormAdvanced' && <FormAdvanced />}
 
-      {/* Chapter 3 examples */}
+      {/* Chapter 5 examples — JavaScript and TypeScript */}
       {exampleName === 'Timer' && <Timer />}
-      {exampleName === 'YouTubeApiExample' && <YouTubeApiExample />}
-  
-      {/* Chapter 4 examples */}
-      {exampleName === 'DeclarativeUiExample' && <DeclarativeUiExample />}
-      {exampleName === 'BlogPostApp' && <BlogPostApp />}
-      {exampleName === 'PropDrillingExample' && <PropDrillingExample />}
+
+      {/* Chapter 6 examples — React core principles and patterns */}
       {exampleName === 'ContextApiExample' && <ContextApiExample />}
-      {exampleName === 'SearchComponentExample' && <SearchComponentExample />}
       {exampleName === 'DebounceExample' && <DebounceExample />}
+      {exampleName === 'DeclarativeUiExample' && <DeclarativeUiExample />}
+      {exampleName === 'PropDrillingExample' && <PropDrillingExample />}
+      {exampleName === 'RenderComponentExample' && <RenderComponentExample />}
+      {exampleName === 'SearchComponentExample' && <SearchComponentExample />}
       {exampleName === 'TooltipExample' && <TooltipExample />}
 
-      {/* Chapter 5 examples */}
+      {/* Chapter 7 examples — React in production: ecosystem and toolchain */}
+      {exampleName === 'AntDThemeExample' && <AntDThemeExample />}
+      {exampleName === 'BlogPostApp' && <BlogPostApp />}
+      {exampleName === 'FaviconExample' && <FaviconExample />}
       {exampleName === 'ModularRouteApp' && <ModularRouteApp />}
-      {exampleName === 'ReactRouterExample' && <ReactRouterExample />}
       {exampleName === 'NestedRoutesExample' && <NestedRoutesExample />}
       {exampleName === 'ProtectedRouteExample' && <ProtectedRouteExample />}
-      {exampleName === 'AntDThemeExample' && <AntDThemeExample />}
-      {exampleName === 'AutoAntDThemeExample' && <AutoAntDThemeExample />}
-      {exampleName === 'FaviconExample' && <FaviconExample />}
+      {exampleName === 'ReactRouterExample' && <ReactRouterExample />}
 
-      {/* Chapter 6 examples */}
-      {exampleName === 'ViteApiProxyExample' && <ViteApiProxyExample />}
+      {/* Chapter 8 examples — Distributed systems fluency */}
       {exampleName === 'LRUDemo' && <LRUDemo />}
-
-      {/* Chapter 8 examples */}
-      {exampleName === 'StarRatingExample' && <StarRatingExample />}
-      {exampleName === 'WeatherForecastApp' && <WeatherForecastApp />}
-
-      {/* Chapter 10 examples */}
-      {exampleName === 'AccessibleModalExample' && <AccessibleModalExample />}
-
-      {/* Appendix A examples */}
-      {exampleName === 'RenderComponentExample' && <RenderComponentExample />}
-      {exampleName === 'UsePromiseExample' && <UsePromiseExample />}
-      {exampleName === 'FlagIsMountedExample' && <FlagIsMountedExample />}
-      {exampleName === 'AbortControllerExample' && <AbortControllerExample />}
-      {exampleName === 'ErrorBoundaryExample' && <ErrorBoundaryExample />}
-      {exampleName === 'FCErrorBoundaryExample' && <FCErrorBoundaryExample />}
-      {exampleName === 'ReactWindowListExample' && <ReactWindowListExample />}
-      {exampleName === 'ReactWindowGridExample' && <ReactWindowGridExample />}
-      {exampleName === 'ReactVirtualizedListExample' && <ReactVirtualizedListExample />}
-      {exampleName === 'ReactVirtuosoListExample' && <ReactVirtuosoListExample />}
-      {exampleName === 'FormSimpleWithAxios' && <FormSimpleWithAxios />}
-      {exampleName === 'TanStackUseQueryExample' && <TanStackUseQueryExample />}
-      {exampleName === 'TanStackUseMutationExample' && <TanStackUseMutationExample />}
-      {exampleName === 'GraphQLExample' && <GraphQLExample />}
     </>
   );
 }
