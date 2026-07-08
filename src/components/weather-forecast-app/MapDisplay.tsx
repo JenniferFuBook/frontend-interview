@@ -4,28 +4,29 @@ import { LocationSearch } from './LocationSearch';
 import { LocationMarker } from './LocationMarker';
 
 /**
- * Compose the Leaflet map, the location search bar, and the marker with its weather popup.
- * - Read the current position from PositionContext to set the initial map center.
- * - Render a TileLayer sourced from OpenStreetMap for the base map tiles.
- * - Overlay LocationSearch so the user can fly to a named location.
- * - Add LocationMarker to display the selected position and its weather forecast.
+ * MapDisplay is the main map component that brings together the Leaflet map,
+ * the search bar, and the location marker with weather forecast.
+ * - Uses the current position from context to set the initial center.
+ * - Renders a TileLayer from OpenStreetMap.
+ * - Overlays the LocationSearch component for user input.
+ * - Adds a LocationMarker to display the popup with weather information.
  */
 export const MapDisplay = () => {
-  // Read the current map center from context — set by geolocation on first load.
+  // Get current position from context to initialize the map center
   const { position } = usePosition();
   return (
-    // Set the map center from context, not a static prop.
+    // Main Leaflet map container--center is set from context
     <MapContainer className="map-container" center={position} zoom={5}>
-      {/* Render the search bar as a Leaflet overlay, not in the normal DOM flow. */}
+      {/* Search bar overlay component */}
       <LocationSearch />
 
-      {/* Base tile layer from OpenStreetMap. */}
+      {/* Base map layer provided by OpenStreetMap */}
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {/* Track the selected position and show a weather popup. */}
+      {/* Marker that displays popup with weather forecast */}
       <LocationMarker />
     </MapContainer>
   );

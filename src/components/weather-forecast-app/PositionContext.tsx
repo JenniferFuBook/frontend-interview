@@ -1,47 +1,61 @@
 import type { LatLngExpression } from 'leaflet';
-import { useState, ReactNode } from 'react';
-import type { Dispatch, SetStateAction } from 'react';
-import { PositionContext } from './usePosition';
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
 import { useCurrentPosition } from './useCurrentPosition';
 
 /**
- * Store the user's active map position and expose a setter so any descendant
- * can update the map center without prop drilling.
+ * PositionContext manages the user's current geographic location
+ * and provides it to any component that needs it.
  *
- * Key behaviors:
- * - Derive the active position: the user's explicit choice wins; the
- *   geolocation result from useCurrentPosition is the default.
- * - Store only the user's choice in state — the geolocation default is
- *   derived, not synchronized, so no effect is needed.
- * - Render nothing until a valid position is available, preventing a flash
- *   of a map centered on [0, 0].
+ * Key features:
+ * - Uses a custom hook (`useCurrentPosition`) to get the initial geolocation.
+ * - Stores the position in state and updates it dynamically.
+ * - Provides `position` and `setPosition` via React Context.
+ * - Ensures child components only render once a valid position exists.
  */
+export type PositionContextType = {
+  position: LatLngExpression;
+  setPosition: React.Dispatch<React.SetStateAction<LatLngExpression>>;
+};
+
+// Create a context for storing the user's current map position
+export const PositionContext = createContext<PositionContextType | undefined>(
+  undefined
+);
+
 type PositionProviderProps = {
   children: ReactNode;
 };
 
 export const PositionProvider = ({ children }: PositionProviderProps) => {
-  // Retrieve the device's geolocation asynchronously — result arrives after mount.
+  // Retrieve the current geolocation using a custom hook
   const currentPosition = useCurrentPosition();
 
-  // Track the user's explicit choice; null until the user selects a position.
-  const [selectedPosition, setSelectedPosition] =
-    useState<LatLngExpression | null>(null);
+  // Define state to hold the current position, initialized as null
+  const [position, setPosition] = useState<LatLngExpression | null>(null);
 
-  // Derive the active position instead of syncing it in an effect.
-  const position = selectedPosition ?? currentPosition ?? null;
+  // Update the position state whenever the geolocation changes (e.g., initial load)
+  useEffect(() => {
+    if (currentPosition) {
+      setPosition(currentPosition);
+    }
+  }, [currentPosition]);
 
-  if (!position) { // Block rendering until a valid position is available.
+  if (!position) { // Render nothing until a position is available
     return null;
   }
 
-  // Cast the setter to the non-null LatLngExpression type expected by consumers.
+  // Provide the position and setter function to all child components
   return (
     <PositionContext.Provider
       value={{
         position,
-        setPosition: setSelectedPosition as Dispatch<
-          SetStateAction<LatLngExpression>
+        setPosition: setPosition as React.Dispatch<
+          React.SetStateAction<LatLngExpression>
         >,
       }}
     >

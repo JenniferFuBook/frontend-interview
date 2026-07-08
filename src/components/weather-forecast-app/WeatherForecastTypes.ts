@@ -1,13 +1,14 @@
 /**
- * Represent the National Weather Service forecast data for a single hour-long period.
- *
+ * ForecastPeriod represents the weather forecast for a single hour or period.
+ * 
  * Key fields:
- * - startTime: ISO 8601 string marking the start of the forecast period.
- * - temperature / temperatureUnit: numeric value and its unit ("F" or "C").
- * - shortForecast: brief prose description (e.g. "Mostly Sunny").
- * - icon: URL to the NWS icon image for this period's weather condition.
- * - windDirection: cardinal or intercardinal string (e.g. "N", "SSW").
- * - windSpeed: formatted string from the API (e.g. "10 mph").
+ * - startTime: ISO string representing the start time of the forecast period.
+ * - temperature: numeric temperature value.
+ * - temperatureUnit: unit of temperature, e.g., "F" or "C".
+ * - shortForecast: brief description of the weather (e.g., "Sunny").
+ * - icon: URL to an icon representing the forecast visually.
+ * - windDirection: cardinal direction of wind (e.g., "N", "NE").
+ * - windSpeed: wind speed as a string (e.g., "10 mph").
  */
 export type ForecastPeriod = {
   startTime: string;
@@ -24,3 +25,4 @@ export type ForecastData = {
     periods: ForecastPeriod[];
   };
 };
+

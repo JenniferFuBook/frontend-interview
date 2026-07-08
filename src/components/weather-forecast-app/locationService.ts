@@ -1,15 +1,15 @@
 import L from 'leaflet';
 
 /**
- * Geocode a free-text search string to a Leaflet LatLng using the
- * OpenStreetMap Nominatim API.
- *
- * @param query - The place name or address the user typed.
- * @returns A Leaflet LatLng for the top result, or null if no match or on error.
+ * A service function that queries the OpenStreetMap Nominatim API
+ * to geocode a search string into latitude/longitude coordinates.
+ * 
+ * @param query - The search string provided by the user.
+ * @returns A Leaflet LatLng object if a result is found, or null if no results.
  */
 export async function locationService(query: string) {
   try {
-    // Encode the query string so special characters don't break the URL.
+    // Fetch geocoding results from the Nominatim API, ensuring the query string is safely encoded
     const res = await fetch(
       `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
         query
