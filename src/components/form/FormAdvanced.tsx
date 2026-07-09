@@ -120,7 +120,7 @@ const Form = () => {
       {/* Display the styled success message with data */}
       {state.data && (
         <div className="success">
-          Form submitted successfully: ${JSON.stringify(state.data)}
+          Form submitted successfully: {JSON.stringify(state.data)}
         </div>
       )}
     </form>
