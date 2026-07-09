@@ -68,7 +68,7 @@ const Form = () => {
       {state.error && <div>{state.error}</div>}
       {/* Display success message with data */}
       {state.data && (
-        <div>Form submitted successfully: ${JSON.stringify(state.data)}</div>
+        <div>Form submitted successfully: {JSON.stringify(state.data)}</div>
       )}
     </form>
   );
