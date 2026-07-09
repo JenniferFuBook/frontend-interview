@@ -52,6 +52,17 @@ const exampleName = import.meta.env.VITE_NAME || 'BlogPostExample';
 const exampleName = 'CssSpecificityExample';
 ```
 
+### Form examples: Web3Forms access key
+The form examples (`FormSimple`, `FormAdvanced`) submit to [Web3Forms](https://web3forms.com), a privacy-friendly service that delivers form submissions to an email inbox with no backend required. Before running them, obtain a free access key from https://web3forms.com, then add the key to the shell configuration file (`.zshrc` or `.bashrc`):
+```
+export WEB3FORMS_ACCESS_KEY="<your_access_key>"
+```
+Create a `.env` file in the project root with the following content:
+```
+VITE_ACCESS_KEY=$WEB3FORMS_ACCESS_KEY
+```
+This keeps the access key out of the source code while making it available to Vite during development.
+
 ## Examples by chapter
 | Chapter | Examples (`VITE_NAME=`) |
 |---|---|
