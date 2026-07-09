@@ -2,26 +2,30 @@
   font-size: 1.5em;
 }
 
-/* Soft neutral page tone: screenshots keep a visible edge on white book
-   pages and avoid pure-white glare on dark e-reader pages. */
-body:has(main article) {
-  background: #f5f5f5;
-  color: #1a1a1a;
-}
+/* Page design for book screenshots: soft neutral tone, centered card.
+   The guard turns the design off while a preloaded stylesheet is active, so
+   the stylesheet-preloading demo keeps its own layout. React renders the
+   precedence prop as a data-precedence attribute on the hoisted link. */
+html:not(:has(link[data-precedence])) {
+  body:has(main article) {
+    background: #f5f5f5;
+    color: #1a1a1a;
+  }
 
-main {
-  max-width: 46em;
-  margin: 0 auto;
-  padding: 1.5em 2em;
-  background: #ffffff;
-  border: 1px solid #d9d9d9;
-  border-radius: 8px;
-}
+  main {
+    max-width: 46em;
+    margin: 0 auto;
+    padding: 1.5em 2em;
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+  }
 
-footer {
-  max-width: 46em;
-  margin: 1em auto 0;
-  font-size: 0.9em;
-  text-align: center;
-  color: #374151;
+  footer {
+    max-width: 46em;
+    margin: 1em auto 0;
+    font-size: 0.9em;
+    text-align: center;
+    color: #374151;
+  }
 }
