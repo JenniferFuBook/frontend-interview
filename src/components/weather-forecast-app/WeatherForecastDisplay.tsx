@@ -34,12 +34,15 @@ type WeatherDisplayProps = {
 
 export const WeatherForecastDisplay = ({ forecast }: WeatherDisplayProps) => {
   const periods = forecast.properties.periods.slice(0, 10); // Display 10 hours of forecast data.
+  // Month + day only, e.g. "July 9" — omit the year.
+  const displayDate = new Date(periods[0].startTime).toLocaleDateString(
+    'en-US',
+    { month: 'long', day: 'numeric' },
+  );
 
   return (
     <div className="weather-forecast-display">
-      <h3>
-        Weather Display ({new Date(periods[0].startTime).toLocaleDateString()})
-      </h3>
+      <h3>Weather Display ({displayDate})</h3>
       <h4>Hourly forecast</h4>
       {/* Pivoted table: time as columns, weather attributes as rows. */}
       <table className="weather-forecast-table">
