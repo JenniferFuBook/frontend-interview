@@ -34,7 +34,10 @@ const BlogPost = ({post}: BlogPostProps) => {
         </article>
       </main>
       <footer>
-        <p>&copy; 2025 My Website. All rights reserved.</p>
+        <p>
+          &copy; 2025 - {new Date().getFullYear()} Funneling Technique. All
+          rights reserved.
+        </p>
       </footer>
     </>
   );
