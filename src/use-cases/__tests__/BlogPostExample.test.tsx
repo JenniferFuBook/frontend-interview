@@ -3,6 +3,16 @@ import '@testing-library/jest-dom';
 import BlogPostExample from '../BlogPostExample';
 
 describe('BlogPostExample', () => {
+  // Freeze the clock so the footer's current-year copyright renders
+  // deterministically and the snapshot never goes stale.
+  beforeAll(() => {
+    jest.useFakeTimers().setSystemTime(new Date(2026, 0, 1));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   it('matches snapshot', () => { // This is a snapshot test
     const { container } = render(<BlogPostExample />);
     expect(container).toMatchSnapshot();
