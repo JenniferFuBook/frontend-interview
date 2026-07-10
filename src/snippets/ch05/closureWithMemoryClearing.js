@@ -2,16 +2,20 @@
 
 function attachHandler() {
   const largeData = new Array(1_000_000).fill('*');
-  console.log(largeData.length); // Used inline — no inner function references largeData,
-  // so it is never context-allocated and is collected when attachHandler returns.
+
+  function logSize(data) { // Takes the data as a parameter — captures nothing from the scope.
+    console.log(data.length);
+  }
+  logSize(largeData);
 
   function handler() {
     console.log('clicked'); // References nothing from the outer scope.
   }
 
   document.addEventListener('click', handler);
+
   return () => document.removeEventListener('click', handler); // Cleanup function.
 }
 
-// Call cleanup() later to remove the listener.
+// largeData is collected when attachHandler returns; call cleanup() to remove the listener.
 const cleanup = attachHandler();
