@@ -1,8 +1,10 @@
+const API = 'https://jsonplaceholder.typicode.com';
+
 export async function fetchUserData(userId) {
   try {
     const [user, posts] = await Promise.all([
-      fetch(`/api/users/${userId}`).then(r => r.json()),
-      fetch(`/api/posts?user=${userId}`).then(r => r.json()),
+      fetch(`${API}/users/${userId}`).then(r => r.json()),
+      fetch(`${API}/posts?userId=${userId}`).then(r => r.json()),
     ]);
     return { user, posts };
   } catch (error) {
@@ -10,3 +12,7 @@ export async function fetchUserData(userId) {
     throw error;
   }
 }
+
+const { user, posts } = await fetchUserData(1);
+console.log(user.name); // 'Leanne Graham'
+console.log(posts.length); // 10
