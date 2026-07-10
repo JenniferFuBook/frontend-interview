@@ -8,4 +8,7 @@ function attachHandler() {
 }
 
 // Leaks memory — largeData cannot be collected while handler is attached.
-attachHandler();
+// document exists only in the browser; the guard lets Node run this file.
+if (typeof document !== 'undefined') {
+  attachHandler();
+}
