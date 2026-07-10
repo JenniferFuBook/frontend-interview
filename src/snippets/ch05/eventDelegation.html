@@ -18,12 +18,12 @@
 
     <script>
       // Add a click event listener to the parent ul element
-      document.getElementById('myList').addEventListener('click', function (e) {
+      document.getElementById('myList').addEventListener('click', function (event) {
         // Check if the clicked element is an li
-        if (e.target.tagName === 'LI') {
+        if (event.target.tagName === 'LI') {
           // Write the message into the page
           document.getElementById('message').textContent =
-            `You clicked: ${e.target.textContent}`;
+            `You clicked: ${event.target.textContent}`;
         }
       });
     </script>
