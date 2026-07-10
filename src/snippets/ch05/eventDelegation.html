@@ -21,7 +21,7 @@
       document.getElementById('myList').addEventListener('click', function (e) {
         // Check if the clicked element is an li
         if (e.target.tagName === 'LI') {
-          // Write the message into the page instead of blocking with an alert
+          // Write the message into the page
           document.getElementById('message').textContent =
             `You clicked: ${e.target.textContent}`;
         }
