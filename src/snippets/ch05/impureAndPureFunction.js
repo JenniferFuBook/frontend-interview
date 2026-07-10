@@ -1,12 +1,12 @@
-let counter = 0;
+let total = 0;
 
-// Impure: Mutate counter (external state); output changes across calls
-function increment() {
-  counter++;
-  return counter;
+// Impure: mutates external state.
+function addToTotal(n) {
+  total += n;
+  return total;
 }
 
-// Pure: Depend only on inputs (x, y) and always produces the same output
-function add(x, y) {
-  return x + y;
+// Pure: depends only on its arguments.
+function add(a, b) {
+  return a + b;
 }
