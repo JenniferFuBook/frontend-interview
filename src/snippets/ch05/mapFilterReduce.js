@@ -7,6 +7,6 @@ const products = [
 const available = products
   .filter(p => p.inStock) // [Widget, Doohickey]
   .map(p => ({ ...p, price: p.price * 1.1 })) // Apply 10% markup.
-  .reduce((sum, p) => sum + p.price, 0); // Total: 27.5.
+  .reduce((sum, p) => sum + p.price, 0); // Sum the marked-up prices.
 
-console.log(available);
+console.log(available); // 27.5
