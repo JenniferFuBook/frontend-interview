@@ -4,8 +4,8 @@ function multiply(a) {
   };
 }
 
-const double = multiply(2); // Creates a function with a = 2.
-const triple = multiply(3); // Creates a function with a = 3.
+const double = multiply(2); // Create a function with a = 2.
+const triple = multiply(3); // Create a function with a = 3.
 
 console.log(double(5)); // 10
 console.log(triple(5)); // 15
