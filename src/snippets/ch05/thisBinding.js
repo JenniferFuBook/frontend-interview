@@ -18,6 +18,6 @@ function greet(greeting) {
   return `${greeting}, ${this.name}`;
 }
 const user = { name: 'Alice' };
-greet.call(user, 'Hello'); // 'Hello, Alice' — `call` sets `this` for one invocation.
+console.log(greet.call(user, 'Hello')); // 'Hello, Alice' — `call` sets `this` for one invocation.
 const boundGreet = greet.bind(user);
-boundGreet('Hello'); // 'Hello, Alice' — `bind` returns a permanently bound function.
+console.log(boundGreet('Hello')); // 'Hello, Alice' — `bind` returns a permanently bound function.
