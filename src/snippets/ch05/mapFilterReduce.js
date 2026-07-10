@@ -5,6 +5,8 @@ const products = [
 ];
 
 const available = products
-  .filter(p => p.inStock)
-  .map(p => ({ ...p, price: p.price * 1.1 }))
-  .reduce((sum, p) => sum + p.price, 0);
+  .filter(p => p.inStock) // [Widget, Doohickey]
+  .map(p => ({ ...p, price: p.price * 1.1 })) // Apply 10% markup.
+  .reduce((sum, p) => sum + p.price, 0); // Total: 27.5.
+
+console.log(available);
