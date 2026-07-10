@@ -9,4 +9,8 @@ function attachHandler() {
 }
 
 // Call cleanup() later to remove the listener and allow garbage collection.
-const cleanup = attachHandler();
+// document exists only in the browser; the guard lets Node run this file.
+if (typeof document !== 'undefined') {
+  const cleanup = attachHandler();
+  console.log(typeof cleanup); // 'function'
+}
