@@ -1,12 +1,12 @@
-function createHandler() {
-  const largeObject = new Array(1000000).fill('*');
-  return function handler() {
-    console.log('Handler active');
-    // Clear reference after use to prevent memory leak
-    largeObject.length = 0;
-  };
+function attachHandler() {
+  function handler() {
+    // Holds no reference to large data — the scope is not retained.
+    console.log('clicked');
+  }
+
+  document.addEventListener('click', handler);
+  return () => document.removeEventListener('click', handler); // Cleanup function.
 }
-const handler = createHandler();
-document.addEventListener('click', handler);
-// Remove the event listener when no longer needed
-document.removeEventListener('click', handler);
+
+// Call cleanup() later to remove the listener and allow garbage collection.
+const cleanup = attachHandler();
