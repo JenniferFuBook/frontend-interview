@@ -1,12 +1,17 @@
-declare function fetchResponse(): unknown;
+function fetchResponse(): unknown {
+  return 'text from the API'; // Stands in for an external source — the shape is unknown.
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fromApi: any = fetchResponse();
-fromApi.method(); // Passes — no compile error, but may crash at runtime.
-
 const safeValue: unknown = fetchResponse();
-// safeValue.method(); // Compile error: Object is of type 'unknown'.
 
 if (typeof safeValue === 'string') {
-  safeValue.toUpperCase(); // Compiles — narrowed to string.
+  console.log(`Narrowed to string: ${safeValue.toUpperCase()}`); // Compiles — typeof narrowed it.
 }
+
+console.log('unknown: safeValue.method() does not even compile.');
+// safeValue.method(); // Compile error: 'safeValue' is of type 'unknown'.
+
+console.log('any: fromApi.method() compiles without complaint — and crashes at runtime.');
+// fromApi.method(); // Runtime crash: fromApi.method is not a function.
