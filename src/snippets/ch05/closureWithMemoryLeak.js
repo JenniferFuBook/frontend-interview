@@ -1,3 +1,5 @@
+// Browser-only: run in a browser console (document does not exist in Node).
+
 function attachHandler() {
   const largeData = new Array(1_000_000).fill('*');
 
@@ -8,7 +10,4 @@ function attachHandler() {
 }
 
 // Leaks memory — largeData cannot be collected while handler is attached.
-// document exists only in the browser; the guard lets Node run this file.
-if (typeof document !== 'undefined') {
-  attachHandler();
-}
+attachHandler();
