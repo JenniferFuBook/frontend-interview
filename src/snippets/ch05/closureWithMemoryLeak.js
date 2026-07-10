@@ -1,8 +1,11 @@
-function createHandler() {
-  const largeObject = new Array(1000000).fill('*');
-  return () => {
-    console.log('Handler active');
-  };
+function attachHandler() {
+  const largeData = new Array(1_000_000).fill('*');
+
+  document.addEventListener('click', function handler() {
+    // largeData stays in scope — unused but reachable by the closure.
+    console.log('clicked');
+  });
 }
-// The code creates a closure that retains a reference to 'largeObject', leading to a memory leak
-document.addEventListener('click', createHandler());
+
+// Leaks memory — largeData cannot be collected while handler is attached.
+attachHandler();

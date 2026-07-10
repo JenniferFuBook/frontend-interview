@@ -1,16 +1,12 @@
-let vAny: any = 10;
-let vUnknown: unknown = 10;
+declare function fetchResponse(): unknown;
 
-// With any, vAny can be assigned and used freely
-let s1: string = vAny;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const fromApi: any = fetchResponse();
+fromApi.method(); // Passes — no compile error, but may crash at runtime.
 
-// With any, there is no compilation error, but it can crash at runtime
-vAny.method();
+const safeValue: unknown = fetchResponse();
+// safeValue.method(); // Compile error: Object is of type 'unknown'.
 
-// With unknown, vUnknown cannot be assigned before check or assertion
-let s2: string = vUnknown; // Compilation error: Type 'unknown' is not assignable to type 'string'
-vUnknown.method(); // Compilation error: 'vUnknown' is of type 'unknown'.
-
-if (typeof vUnknown === "number") {
-  let s3: string = vUnknown.toString(); // After type narrowing, vUnknown is now known to be a number
+if (typeof safeValue === 'string') {
+  safeValue.toUpperCase(); // Compiles — narrowed to string.
 }
