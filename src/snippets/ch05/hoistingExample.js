@@ -1,7 +1,10 @@
 'use strict';
+
 function greet() {
-  // This will throw a ReferenceError because 'message' is not initialized before use due to 'let' hoisting behavior
-  console.log(message);
-  let message = "Hello, world!";
+  console.log(messageVar); // Log undefined — `var` is hoisted and initialized.
+  console.log(messageLet); // Throw ReferenceError — `let` is in the TDZ.
+  var messageVar = 'hello';
+  let messageLet = 'hello';
 }
+
 greet();
