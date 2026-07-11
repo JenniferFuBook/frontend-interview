@@ -4,7 +4,7 @@ type ErrorState   = { status: 'error';   message: string };
 
 type FetchState = LoadingState | SuccessState | ErrorState;
 
-export function render(state: FetchState): string {
+function render(state: FetchState): string {
   switch (state.status) {
     case 'loading': return 'Loading…';
     case 'success': return state.data.join(', ');
@@ -16,3 +16,9 @@ export function render(state: FetchState): string {
     }
   }
 }
+
+console.log(render({ status: 'loading' })); // Loading…
+console.log(render({ status: 'success', data: ['one', 'two'] })); // one, two
+console.log(render({ status: 'error', message: 'timeout' })); // Error: timeout
+
+export {}; // Keep this file a module so its declarations stay local.
