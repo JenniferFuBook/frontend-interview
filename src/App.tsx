@@ -19,6 +19,7 @@ import DragAndDrop from './components/drag-and-drop/DragAndDrop';
 import FaviconExample from './use-cases/FaviconExample';
 import FormAdvanced from './components/form/FormAdvanced';
 import FormSimple from './components/form/FormSimple';
+import GenericConstraintsExample from './use-cases/GenericConstraintsExample';
 import GenericListExample from './use-cases/GenericListExample';
 import LRUDemo from './use-cases/LRUDemo';
 import ModularRouteApp from './use-cases/ModularRouteApp';
@@ -54,6 +55,7 @@ function App() {
       {exampleName === 'FormAdvanced' && <FormAdvanced />}
 
       {/* Chapter 5 examples — JavaScript and TypeScript */}
+      {exampleName === 'GenericConstraintsExample' && <GenericConstraintsExample />}
       {exampleName === 'GenericListExample' && <GenericListExample />}
       {exampleName === 'Timer' && <Timer />}
 
