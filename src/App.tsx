@@ -55,9 +55,9 @@ function App() {
       {exampleName === 'FormAdvanced' && <FormAdvanced />}
 
       {/* Chapter 5 examples — JavaScript and TypeScript */}
-      {exampleName === 'Timer' && <Timer />}
-      {exampleName === 'GenericListExample' && <GenericListExample />}
       {exampleName === 'GenericConstraintsExample' && <GenericConstraintsExample />}
+      {exampleName === 'GenericListExample' && <GenericListExample />}
+      {exampleName === 'Timer' && <Timer />}
 
       {/* Chapter 6 examples — React core principles and patterns */}
       {exampleName === 'ContextApiExample' && <ContextApiExample />}
