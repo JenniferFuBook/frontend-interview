@@ -67,11 +67,11 @@ This keeps the access key out of the source code while making it available to Vi
 | Chapter | Examples (`VITE_NAME=`) |
 |---|---|
 | 3 — Frontend system design | `StarRatingExample`, `WeatherForecastApp` |
-| 4 — HTML, CSS, and the fundamentals | `BlogPostExample`, `CssSpecificityExample`, `DragAndDrop`, `FormSimple`, `FormAdvanced` |
+| 4 — HTML and CSS | `BlogPostExample`, `CssSpecificityExample`, `DragAndDrop`, `FormSimple`, `FormAdvanced` |
 | 5 — JavaScript and TypeScript | `GenericConstraintsExample`, `GenericListExample`, `Timer` |
-| 6 — React core principles and patterns | `ContextApiExample`, `DebounceExample`, `DeclarativeUiExample`, `PropDrillingExample`, `RenderComponentExample`, `SearchComponentExample`, `TooltipExample` |
+| 6 — React: core principles and patterns | `ContextApiExample`, `DebounceExample`, `DeclarativeUiExample`, `PropDrillingExample`, `RenderComponentExample`, `SearchComponentExample`, `TooltipExample` |
 | 7 — React in production | `AntDThemeExample`, `BlogPostApp`, `FaviconExample`, `ModularRouteApp`, `NestedRoutesExample`, `ProtectedRouteExample`, `ReactRouterExample` |
-| 8 — Distributed systems fluency | `LRUDemo` |
+| 8 — Distributed systems | `LRUDemo` |
 
 ## Project structure
 The repository is set up as a [Vite](https://vite.dev) TypeScript project. Vite is a modern build tool and development server that offers lightning-fast startup and hot module replacement for web projects. It is designed to provide an extremely fast and efficient development experience by leveraging native ES modules and smart caching. The directory and code structure are organized as follows:
