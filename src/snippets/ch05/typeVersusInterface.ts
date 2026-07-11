@@ -5,16 +5,21 @@ interface Config {
   retries: number; // Declaration merging — Config now has url and retries.
 }
 
-export const config: Config = { url: 'https://api.example.com', retries: 3 };
+const config: Config = { url: 'https://api.example.com', retries: 3 };
+console.log(`Merged interface: ${config.url} with ${config.retries} retries`);
 
-export type Status = 'idle' | 'loading' | 'success'; // A union is necessarily a type.
+type Status = 'idle' | 'loading' | 'success'; // A union is necessarily a type.
 
 const state = { status: 'success' } as const; // Narrows status to the literal 'success'.
-export const current: Status = state.status; // Assignable — the literal is in the union.
+const current: Status = state.status; // Assignable — the literal is in the union.
+console.log(`as const narrowed the literal: ${current}`);
 
-export const routes = {
+const routes = {
   home: '/',
   posts: '/posts',
 } satisfies Record<string, `/${string}`>; // Validates without widening…
 
-export const postsPath: '/posts' = routes.posts; // …so each value keeps its literal type.
+const postsPath: '/posts' = routes.posts; // …so each value keeps its literal type.
+console.log(`satisfies kept the literal: ${postsPath}`);
+
+export {}; // Keep this file a module so its declarations stay local.
