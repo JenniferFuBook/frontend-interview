@@ -70,7 +70,7 @@ This keeps the access key out of the source code while making it available to Vi
 | 4 — HTML and CSS | `BlogPostExample`, `CssSpecificityExample`, `DragAndDrop`, `FormSimple`, `FormAdvanced` |
 | 5 — JavaScript and TypeScript | `GenericConstraintsExample`, `GenericListExample`, `Timer` |
 | 6 — React: core principles and patterns | `ContextApiExample`, `DebounceExample`, `DeclarativeUiExample`, `PropDrillingExample`, `RenderComponentExample`, `SearchComponentExample`, `TooltipExample` |
-| 7 — React in production | `AntDThemeExample`, `BlogPostApp`, `FaviconExample`, `ModularRouteApp`, `NestedRoutesExample`, `ProtectedRouteExample`, `ReactRouterExample` |
+| 7 — React in production | `MantineThemeExample`, `BlogPostApp`, `FaviconExample`, `ModularRouteApp`, `NestedRoutesExample`, `ProtectedRouteExample`, `ReactRouterExample` |
 | 8 — Distributed systems | `LRUDemo` |
 
 ## Project structure
