@@ -8,7 +8,6 @@
  * @author Jennifer Fu
  */
 // import GlobalStyle from './styles/GlobalStyle';
-import AntDThemeExample from './use-cases/AntDThemeExample';
 import BlogPostApp from './use-cases/BlogPostApp';
 import BlogPostExample from './use-cases/BlogPostExample';
 import ContextApiExample from './use-cases/ContextApiExample';
@@ -22,6 +21,7 @@ import FormSimple from './components/form/FormSimple';
 import GenericConstraintsExample from './use-cases/GenericConstraintsExample';
 import GenericListExample from './use-cases/GenericListExample';
 import LRUDemo from './use-cases/LRUDemo';
+import MantineThemeExample from './use-cases/MantineThemeExample';
 import ModularRouteApp from './use-cases/ModularRouteApp';
 import NestedRoutesExample from './use-cases/NestedRoutesExample';
 import PropDrillingExample from './use-cases/PropDrillingExample';
@@ -69,7 +69,7 @@ function App() {
       {exampleName === 'TooltipExample' && <TooltipExample />}
 
       {/* Chapter 7 examples — React in production: ecosystem and toolchain */}
-      {exampleName === 'AntDThemeExample' && <AntDThemeExample />}
+      {exampleName === 'MantineThemeExample' && <MantineThemeExample />}
       {exampleName === 'BlogPostApp' && <BlogPostApp />}
       {exampleName === 'FaviconExample' && <FaviconExample />}
       {exampleName === 'ModularRouteApp' && <ModularRouteApp />}
