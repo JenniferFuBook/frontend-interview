@@ -51,8 +51,8 @@ function App() {
       {exampleName === 'BlogPostExample' && <BlogPostExample />}
       {exampleName === 'CssSpecificityExample' && <CssSpecificityExample />}
       {exampleName === 'DragAndDrop' && <DragAndDrop />}
-      {exampleName === 'FormSimple' && <FormSimple />}
       {exampleName === 'FormAdvanced' && <FormAdvanced />}
+      {exampleName === 'FormSimple' && <FormSimple />}
 
       {/* Chapter 5 examples — JavaScript and TypeScript */}
       {exampleName === 'GenericConstraintsExample' && <GenericConstraintsExample />}
@@ -69,9 +69,9 @@ function App() {
       {exampleName === 'TooltipExample' && <TooltipExample />}
 
       {/* Chapter 7 examples — React in production: ecosystem and toolchain */}
-      {exampleName === 'MantineThemeExample' && <MantineThemeExample />}
       {exampleName === 'BlogPostApp' && <BlogPostApp />}
       {exampleName === 'FaviconExample' && <FaviconExample />}
+      {exampleName === 'MantineThemeExample' && <MantineThemeExample />}
       {exampleName === 'ModularRouteApp' && <ModularRouteApp />}
       {exampleName === 'NestedRoutesExample' && <NestedRoutesExample />}
       {exampleName === 'ProtectedRouteExample' && <ProtectedRouteExample />}
