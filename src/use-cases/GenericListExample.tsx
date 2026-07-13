@@ -1,3 +1,5 @@
+// This example is contained in a single file for simplicity.
+// In a real-world application, you would split the components into separate files.
 import React from 'react';
 
 interface ListProps<T> {
