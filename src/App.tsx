@@ -7,7 +7,6 @@
  * Replace <ExampleName> with the desired example name.
  * @author Jennifer Fu
  */
-// import GlobalStyle from './styles/GlobalStyle';
 import BlogPostApp from './use-cases/BlogPostApp';
 import BlogPostExample from './use-cases/BlogPostExample';
 import ContextApiExample from './use-cases/ContextApiExample';
@@ -41,8 +40,6 @@ function App() {
 
   return (
     <>
-      {/* <GlobalStyle /> */}
-
       {/* Chapter 3 examples — Frontend system design */}
       {exampleName === 'StarRatingExample' && <StarRatingExample />}
       {exampleName === 'WeatherForecastApp' && <WeatherForecastApp />}
