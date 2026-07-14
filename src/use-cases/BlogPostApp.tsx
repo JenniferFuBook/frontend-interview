@@ -4,11 +4,11 @@ import PostLikes from '../components/post-likes/PostLikes';
 import { samplePost, sampleComments } from './data';
 
 const BlogPostExample2 = () => (
-  <>
+  <div className="blog-page">
     <BlogPost post={samplePost} />
     <PostLikes initLikes={0} />
     <PostComments initComments={sampleComments} />
-  </>
+  </div>
 );
 
 export default BlogPostExample2;
