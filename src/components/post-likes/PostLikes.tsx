@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import IconButton from '../icon-button/IconButton';
-// import IconButton from '../icon-button-with-emotion/IconButton'; // enable to try the emotion version
-// import IconButton from '../icon-button-with-cm/IconButton'; // enable to try the CSS modules version
-// import IconButton from '../icon-button-with-tw/IconButton'; // enable to try the Tailwind CSS version
+// import IconButton from '../icon-button/IconButton';
+import IconButton from '../icon-button-with-tw/IconButton'; // enable to try the Tailwind CSS version
 import likeIcon from './like.svg';
 import './index.css';
 
