@@ -28,4 +28,33 @@ html:not(:has(link[data-precedence])) {
     text-align: center;
     color: #374151;
   }
+
+  /* BlogPostApp (VITE_NAME=BlogPostApp) wraps the article, likes, and comments
+     in a single card. BlogPostExample renders the article alone and keeps the
+     main-only card above. */
+  .blog-page {
+    max-width: 46em;
+    margin: 2em auto;
+    padding: 1.5em 2em;
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+  }
+
+  /* Inside the wrapping card, the inner main and footer drop their own card
+     framing so there is a single border around the whole example. */
+  .blog-page main,
+  .blog-page footer {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .blog-page footer {
+    margin-top: 1.5em;
+  }
 }
