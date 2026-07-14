@@ -1,6 +1,6 @@
 import { useState } from 'react';
-// import IconButton from '../icon-button/IconButton';
-import IconButton from '../icon-button-with-tw/IconButton'; // enable to try the Tailwind CSS version
+import IconButton from '../icon-button/IconButton';
+// import IconButton from '../icon-button-with-tw/IconButton'; // enable to try the Tailwind CSS version
 import Comment from './Comment';
 import { CommentProps } from './types';
 import submitIcon from './submit.svg';
