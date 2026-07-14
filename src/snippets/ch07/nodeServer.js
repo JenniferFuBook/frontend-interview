@@ -41,6 +41,9 @@ const PORT = 3000;
 //   next(); // Pass control to other middleware or routes
 // });
 
+// Redirect the root path to the data endpoint so the base URL is not a 404
+app.get('/', (req, res) => res.redirect('/api/data'));
+
 // Define an API route to serve data from a local JSON file
 app.get('/api/data', async (req, res) => {
   try {
