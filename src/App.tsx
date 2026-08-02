@@ -12,7 +12,6 @@ import BlogPostExample from './use-cases/BlogPostExample';
 import ContextApiExample from './use-cases/ContextApiExample';
 import CssSpecificityExample from './use-cases/CssSpecificityExample';
 import DebounceExample from './use-cases/DebounceExample';
-import DeclarativeUiExample from './use-cases/DeclarativeUiExample';
 import DragAndDrop from './components/drag-and-drop/DragAndDrop';
 import FaviconExample from './use-cases/FaviconExample';
 import FormAdvanced from './components/form/FormAdvanced';
@@ -59,7 +58,6 @@ function App() {
       {/* Chapter 6 examples — React core principles and patterns */}
       {exampleName === 'ContextApiExample' && <ContextApiExample />}
       {exampleName === 'DebounceExample' && <DebounceExample />}
-      {exampleName === 'DeclarativeUiExample' && <DeclarativeUiExample />}
       {exampleName === 'PropDrillingExample' && <PropDrillingExample />}
       {exampleName === 'RenderComponentExample' && <RenderComponentExample />}
       {exampleName === 'SearchComponentExample' && <SearchComponentExample />}
