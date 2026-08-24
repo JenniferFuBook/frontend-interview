@@ -48,8 +48,8 @@ const StarRating = ({
     // Delegate rating resolution to a utility that reads the data attribute from the DOM.
     const newRatingIndex = calculateNewRating(e);
     if (newRatingIndex !== undefined) {
-      // Toggle to a half-star if the same star is clicked again.
-      const newRating = newRatingIndex === rating ? newRatingIndex - 0.5 : newRatingIndex;
+      // Clear the rating when the same star is clicked again.
+      const newRating = newRatingIndex === rating ? 0 : newRatingIndex;
       setRating(newRating);
       setHoverIndex(-1); // Clear hover highlight after the click is committed.
     }
