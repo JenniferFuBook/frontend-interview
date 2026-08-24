@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { StarRatingList } from './StarRatingList';
 import { StarRatingLabel } from './StarRatingLabel';
 import { calculateNewRating } from './utils';
@@ -37,9 +37,6 @@ const StarRating = ({
   // Temporarily highlight stars under the cursor; reset to -1 on mouse leave.
   const [hoverIndex, setHoverIndex] = useState<number>(-1);
 
-  // Reference the wrapper div to locate the rendered stars for keyboard focus control.
-  const containerRef = useRef<HTMLDivElement>(null);
-
   // Highlight stars up to whichever index is higher — the hover preview or the saved rating.
   const activeIndex = Math.max(rating, hoverIndex);
 
@@ -67,22 +64,14 @@ const StarRating = ({
   // Clear the hover highlight when the pointer exits the star list.
   const handleLeave = () => setHoverIndex(-1);
 
-  // Allow arrow key navigation across stars for keyboard users.
+  // Let keyboard users adjust the rating with the arrow keys; the slider container holds focus.
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    // Query all radio stars from the wrapper ref to programmatically move focus.
-    const stars = containerRef.current?.querySelectorAll('[role="radio"]');
-    if (!stars) {
-      return;
-    }
-
-    if (e.key === 'ArrowRight') { // Step up by half a star; wrap back to 0 past the last star.
-      const newRating = rating + 0.5 <= numOfStars ? rating + 0.5 : 0;
-      setRating(newRating);
-      (stars[Math.ceil(newRating) - 1] as HTMLElement).focus();
-    } else if (e.key === 'ArrowLeft') { // Step down by half a star; wrap to the last star below 0.
-      const newRating = rating - 0.5 >= 0 ? rating - 0.5 : numOfStars;
-      setRating(newRating);
-      (stars[Math.ceil(newRating) - 1] as HTMLElement).focus();
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      setRating(Math.min(rating + 0.5, numOfStars)); // Step up by half a star, clamped at the maximum.
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      setRating(Math.max(rating - 0.5, 0)); // Step down by half a star, clamped at zero.
     }
   };
 
@@ -91,7 +80,6 @@ const StarRating = ({
 
   return (
     <div
-      ref={containerRef}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -101,6 +89,7 @@ const StarRating = ({
       {/* Render the star list via StarRatingList. */}
       <StarRatingList
         numOfStars={numOfStars}
+        rating={rating}
         activeIndex={activeIndex}
         activeColor={activeColor}
         inactiveColor={inactiveColor}

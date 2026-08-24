@@ -3,6 +3,7 @@ import './index.css';
 
 type StarRatingListProps = {
   numOfStars: number;
+  rating: number; // current rating, exposed as the slider's aria-valuenow
   activeIndex: number; // index (inclusive) to highlight; -1 if none
   activeColor: string;
   inactiveColor: string;
@@ -16,6 +17,7 @@ type StarRatingListProps = {
 
 export const StarRatingList = ({
   numOfStars,
+  rating,
   activeIndex,
   activeColor,
   inactiveColor,
@@ -29,7 +31,13 @@ export const StarRatingList = ({
   return (
     <div
       className="star-list-container"
-      role="radiogroup" // Group the individual star radio buttons for screen readers.
+      role="slider" // Expose the whole star list as one slider whose value is the rating.
+      tabIndex={0} // Focusable so keyboard users can adjust the rating.
+      aria-label="Star rating"
+      aria-valuemin={0}
+      aria-valuemax={numOfStars}
+      aria-valuenow={rating > 0 ? rating : 0} // Report the current rating as the slider value.
+      aria-valuetext={rating > 0 ? `${rating} of ${numOfStars} stars` : 'Not rated'} // Announce a friendly value.
       onMouseMove={onHover} // Use onMouseMove on the container (not onMouseEnter per star) to track sub-star pointer position for half-star detection.
       onMouseLeave={onLeave}
       onClick={onClick}

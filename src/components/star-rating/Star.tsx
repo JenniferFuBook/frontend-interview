@@ -32,10 +32,7 @@ export const Star = ({
         lineHeight: 1,
         cursor: 'pointer', // Signal that the star is clickable.
       }}
-      role="radio" // Treat this star as a radio button within the radiogroup.
-      aria-label={`Rate ${index}${fill === 0.5 ? ' and a half' : ''} stars`} // Announce the star index and half-star state to screen readers.
-      aria-checked={fill > 0} // Mark the star as selected when it carries any fill.
-      tabIndex={0} // Include in the tab order for keyboard navigation.
+      aria-hidden="true" // Decorative: the slider container conveys the rating to assistive technology.
     >
       {/* Render the background star in inactive color — always visible beneath the active layer. */}
       <span
