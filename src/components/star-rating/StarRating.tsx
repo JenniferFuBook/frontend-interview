@@ -38,15 +38,15 @@ const StarRating = ({
   const [hoverIndex, setHoverIndex] = useState<number>(-1);
 
   // Determine which stars should be highlighted by either rating or hover
-  const activeUntil = Math.max(rating, hoverIndex);
+  const activeIndex = Math.max(rating, hoverIndex);
 
   // Event handler for clicking a star
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Use a utility function to obtain the index of the clicked star
-    const index = calculateNewRating(e);
-    if (index !== undefined) {
+    const newRatingIndex = calculateNewRating(e);
+    if (newRatingIndex !== undefined) {
       // Determine new rating (toggle if same star clicked)
-      const newRating = index === rating ? index - 0.5 : index;
+      const newRating = newRatingIndex === rating ? newRatingIndex - 0.5 : newRatingIndex;
       setRating(newRating);
       setHoverIndex(-1); // Reset hover state on click
     }
@@ -55,9 +55,9 @@ const StarRating = ({
   // Event handler for hovering over a star
   const handleHover = (e: React.MouseEvent<HTMLDivElement>) => {
     // Use a utility function to obtain the index of the hover star
-    const index = calculateNewRating(e);
-    if (index !== undefined && index !== hoverIndex) {
-      setHoverIndex(index);
+    const newRatingIndex = calculateNewRating(e);
+    if (newRatingIndex !== undefined && newRatingIndex !== hoverIndex) {
+      setHoverIndex(newRatingIndex);
     }
   };
 
@@ -78,7 +78,7 @@ const StarRating = ({
       {/* Star list (UI layer) */}
       <StarRatingList
         numOfStars={numOfStars}
-        activeUntil={activeUntil}
+        activeIndex={activeIndex}
         activeColor={activeColor}
         inactiveColor={inactiveColor}
         starSize={starSize}
