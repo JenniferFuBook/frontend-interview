@@ -41,15 +41,15 @@ const StarRating = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Highlight stars up to whichever index is higher — the hover preview or the saved rating.
-  const activeUntil = Math.max(rating, hoverIndex);
+  const activeIndex = Math.max(rating, hoverIndex);
 
   // Commit the clicked star's rating to state.
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Delegate index resolution to a utility that reads the data attribute from the DOM.
-    const index = calculateNewRating(e);
-    if (index !== undefined) {
+    const newRatingIndex = calculateNewRating(e);
+    if (newRatingIndex !== undefined) {
       // Toggle to a half-star if the same star is clicked again.
-      const newRating = index === rating ? index - 0.5 : index;
+      const newRating = newRatingIndex === rating ? newRatingIndex - 0.5 : newRatingIndex;
       setRating(newRating);
       setHoverIndex(-1); // Clear hover highlight after the click is committed.
     }
@@ -58,9 +58,9 @@ const StarRating = ({
   // Update the hover highlight as the pointer moves across stars.
   const handleHover = (e: React.MouseEvent<HTMLDivElement>) => {
     // Delegate index resolution to the same utility used by handleClick.
-    const index = calculateNewRating(e);
-    if (index !== undefined && index !== hoverIndex) {
-      setHoverIndex(index);
+    const newRatingIndex = calculateNewRating(e);
+    if (newRatingIndex !== undefined && newRatingIndex !== hoverIndex) {
+      setHoverIndex(newRatingIndex);
     }
   };
 
@@ -101,7 +101,7 @@ const StarRating = ({
       {/* Render the star list via StarRatingList. */}
       <StarRatingList
         numOfStars={numOfStars}
-        activeUntil={activeUntil}
+        activeIndex={activeIndex}
         activeColor={activeColor}
         inactiveColor={inactiveColor}
         starSize={starSize}
