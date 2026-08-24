@@ -46,7 +46,7 @@ const StarRating = ({
     const newRatingIndex = calculateNewRating(e);
     if (newRatingIndex !== undefined) {
       // Determine new rating (toggle if same star clicked)
-      const newRating = newRatingIndex === rating ? newRatingIndex - 0.5 : newRatingIndex;
+      const newRating = newRatingIndex === rating ? 0 : newRatingIndex;
       setRating(newRating);
       setHoverIndex(-1); // Reset hover state on click
     }
