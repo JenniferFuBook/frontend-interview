@@ -38,24 +38,24 @@ const StarRating = ({
   const [hoverIndex, setHoverIndex] = useState<number>(-1);
 
   // Determine which stars should be highlighted by either rating or hover
-  const activeUntil = Math.max(rating, hoverIndex);
+  const activeIndex = Math.max(rating, hoverIndex);
 
   // Event handler for clicking a star
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Use a utility function to obtain the index of the clicked star
-    const index = calculateNewRating(e);
-    if (index !== undefined) {
-      setRating(index);
+    const newRatingIndex = calculateNewRating(e);
+    if (newRatingIndex !== undefined) {
+      setRating(newRatingIndex);
     }
   };
 
   // Event handler for hovering over a star
   const handleHover = (e: React.MouseEvent<HTMLDivElement>) => {
     // Use a utility function to obtain the index of the hovered star
-    const index = calculateNewRating(e);
+    const newRatingIndex = calculateNewRating(e);
     // Optimize performance by triggering updates solely on changes
-    if (index !== undefined && index !== hoverIndex) {
-      setHoverIndex(index);
+    if (newRatingIndex !== undefined && newRatingIndex !== hoverIndex) {
+      setHoverIndex(newRatingIndex);
     }
   };
 
@@ -70,7 +70,7 @@ const StarRating = ({
       {/* Star list (UI layer) */}
       <StarRatingList
         numOfStars={numOfStars}
-        activeUntil={activeUntil}
+        activeIndex={activeIndex}
         activeColor={activeColor}
         inactiveColor={inactiveColor}
         starSize={starSize}

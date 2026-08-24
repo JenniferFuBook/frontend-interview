@@ -3,7 +3,7 @@ import './index.css';
 
 type StarRatingListProps = {
   numOfStars: number;
-  activeUntil: number; // index (inclusive) to highlight; -1 if none
+  activeIndex: number; // index (inclusive) to highlight; -1 if none
   activeColor: string;
   inactiveColor: string;
   starSize: string;
@@ -14,7 +14,7 @@ type StarRatingListProps = {
 
 export const StarRatingList = ({
   numOfStars,
-  activeUntil,
+  activeIndex,
   activeColor,
   inactiveColor,
   starSize,
@@ -36,7 +36,7 @@ export const StarRatingList = ({
           <Star
             key={i}
             index={startIndex} // Star position in the list
-            fill={startIndex <= activeUntil ? 1 : 0} // 1 = full, 0 = empty
+            fill={startIndex <= activeIndex ? 1 : 0} // 1 = full, 0 = empty
             activeColor={activeColor}
             inactiveColor={inactiveColor}
             starSize={starSize}
