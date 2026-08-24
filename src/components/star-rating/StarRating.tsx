@@ -45,7 +45,7 @@ const StarRating = ({
 
   // Commit the clicked star's rating to state.
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Delegate index resolution to a utility that reads the data attribute from the DOM.
+    // Delegate rating resolution to a utility that reads the data attribute from the DOM.
     const newRatingIndex = calculateNewRating(e);
     if (newRatingIndex !== undefined) {
       // Toggle to a half-star if the same star is clicked again.
@@ -57,7 +57,7 @@ const StarRating = ({
 
   // Update the hover highlight as the pointer moves across stars.
   const handleHover = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Delegate index resolution to the same utility used by handleClick.
+    // Delegate rating resolution to the same utility used by handleClick.
     const newRatingIndex = calculateNewRating(e);
     if (newRatingIndex !== undefined && newRatingIndex !== hoverIndex) {
       setHoverIndex(newRatingIndex);
