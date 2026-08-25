@@ -16,7 +16,8 @@ export const Star = ({
   hoverIndex,
 }: StarProps) => {
   return (
-    <span // Container for stars
+    <span // Container for stars (decorative; the slider container conveys the rating)
+      aria-hidden="true"
       // Dynamically apply the bounce animation to whichever star is hovered
       className={
         hoverIndex === index || hoverIndex === index - 0.5 ? 'bounce' : '' 
