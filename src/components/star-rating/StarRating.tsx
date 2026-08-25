@@ -64,6 +64,17 @@ const StarRating = ({
   // Reset hover state on leave
   const handleLeave = () => setHoverIndex(-1);
 
+  // Let keyboard users adjust the rating with the arrow keys; the slider container holds focus.
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      setRating(Math.min(rating + 0.5, numOfStars)); // Step up by half a star, clamped at the maximum.
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      setRating(Math.max(rating - 0.5, 0)); // Step down by half a star, clamped at zero.
+    }
+  };
+
   // Determine label text (either default text or "Rated X")
   const label = rating > 0 ? `Rated ${rating}` : text;
 
@@ -78,6 +89,7 @@ const StarRating = ({
       {/* Star list (UI layer) */}
       <StarRatingList
         numOfStars={numOfStars}
+        rating={rating}
         activeIndex={activeIndex}
         activeColor={activeColor}
         inactiveColor={inactiveColor}
@@ -85,6 +97,7 @@ const StarRating = ({
         onHover={handleHover}
         onLeave={handleLeave}
         onClick={handleClick}
+        onKeyDown={handleKeyDown}
       />
       {/* Optional label (UI layer) */}
       {showLabel && <StarRatingLabel text={label} />}
