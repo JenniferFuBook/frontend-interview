@@ -35,9 +35,12 @@ export function useCurrentPosition() {
         setCurrentPosition(L.latLng(pos.coords.latitude, pos.coords.longitude));
       },
       () => {
-        // Fall back to the default position if permission is denied or an error occurs.
+        // Fall back to the default position if permission is denied, times out, or errors.
         setCurrentPosition(DEFAULT_POSITION);
-      }
+      },
+      // Bound the wait: without a timeout, an ignored permission prompt leaves the
+      // request pending forever. On timeout the error callback fires and we fall back.
+      { timeout: 10000 }
     );
   }, []);
 

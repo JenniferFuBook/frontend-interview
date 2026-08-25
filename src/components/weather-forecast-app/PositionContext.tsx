@@ -13,8 +13,9 @@ import { useCurrentPosition } from './useCurrentPosition';
  *   geolocation result from useCurrentPosition is the default.
  * - Store only the user's choice in state — the geolocation default is
  *   derived, not synchronized, so no effect is needed.
- * - Render nothing until a valid position is available, preventing a flash
- *   of a map centered on [0, 0].
+ * - Show a loading state until a valid position is available, preventing a
+ *   flash of a map centered on [0, 0]. The geolocation request is bounded by a
+ *   timeout in useCurrentPosition, so this state cannot hang indefinitely.
  */
 type PositionProviderProps = {
   children: ReactNode;
@@ -31,8 +32,8 @@ export const PositionProvider = ({ children }: PositionProviderProps) => {
   // Derive the active position instead of syncing it in an effect.
   const position = selectedPosition ?? currentPosition ?? null;
 
-  if (!position) { // Block rendering until a valid position is available.
-    return null;
+  if (!position) { // Show a loading state while the initial position resolves.
+    return <div>Locating you on the map…</div>;
   }
 
   // Cast the setter to the non-null LatLngExpression type expected by consumers.
