@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { usePosition } from './usePosition';
-import { locationService } from './locationService';
+import { useServices } from './useServices';
 
 /**
  * Render a search form overlaid on the Leaflet map. Accept a place name,
@@ -20,6 +20,9 @@ export const LocationSearch = () => {
 
   // Call setPosition from context to move the map center when a location is found.
   const { setPosition } = usePosition();
+
+  // Code against the injected LocationService rather than a concrete fetch.
+  const { location } = useServices();
 
   // Hold a ref to the form DOM node to disable Leaflet event propagation.
   const formRef = useRef<HTMLFormElement>(null);
@@ -41,10 +44,14 @@ export const LocationSearch = () => {
       return;
     }
 
-    // Delegate geocoding to locationService, which calls the Nominatim API.
-    const queriedPosition = await locationService(query);
-    if (queriedPosition) {
-      setPosition(queriedPosition);
+    // Delegate geocoding to the injected LocationService (Nominatim in production).
+    try {
+      const queriedPosition = await location.geocode(query);
+      if (queriedPosition) {
+        setPosition(queriedPosition);
+      }
+    } catch (err) {
+      console.error((err as Error).message);
     }
 
   };

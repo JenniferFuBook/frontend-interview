@@ -57,7 +57,7 @@ export const LocationMarker = () => {
       >
         {/* Render loading, error, or forecast content depending on fetch state. */}
         {loading ? (
-          <div>Loading...</div>
+          <div role="status">Loading forecast…</div>
         ) : error ? (
           <div>{error}</div>
         ) : (

@@ -1,6 +1,8 @@
 import type { LatLngExpression } from 'leaflet';
 import type { ForecastData } from './WeatherForecastTypes';
 import { useEffect, useState } from 'react';
+import { useServices } from './useServices';
+import { ForecastUnavailableError } from './weatherServices';
 
 /**
  * Fetch hourly weather forecast data for a given geographic position using
@@ -25,6 +27,9 @@ export const useWeatherForecast = (position: LatLngExpression | null) => {
   // Non-null when either fetch step fails or the API returns a non-OK status.
   const [error, setError] = useState<string | null>(null);
 
+  // Code against the injected WeatherService; production calls the NWS API.
+  const { weather } = useServices();
+
   useEffect(() => {
     if (!position) {
       return;
@@ -38,50 +43,24 @@ export const useWeatherForecast = (position: LatLngExpression | null) => {
         setLoading(true);
         setError(null);
 
-        const [lat, lon] = Array.isArray(position)
-          ? position
-          : [position.lat, position.lng];
-
-        // Step 1: Fetch grid metadata — the NWS API requires this to resolve the forecast URL.
-        const metadataRes = await fetch(
-          `https://api.weather.gov/points/${lat},${lon}`,
-          { signal: abortController.signal },
+        // Delegate the two-step fetch to the injected WeatherService.
+        const forecastData = await weather.getForecast(
+          position,
+          abortController.signal
         );
-        if (!metadataRes.ok) {
-          setError(
-            metadataRes.status === 404
-              ? 'No forecast is available for this location.'
-              : 'Could not load the forecast. Please try again.'
-          );
-          return;
-        }
-
-        const metadata = await metadataRes.json();
-
-        if (!metadata.properties.forecastHourly) {
-          setError('Could not load the forecast. Please try again.');
-          return;
-        }
-
-        // Step 2: Fetch the hourly forecast from the URL returned in the metadata.
-        const forecastRes = await fetch(metadata.properties.forecastHourly, {
-          signal: abortController.signal,
-        });
-        if (!forecastRes.ok) {
-          setError('Could not load the forecast. Please try again.');
-          return;
-        }
-
-        const forecastData: ForecastData = await forecastRes.json();
-
         setForecast(forecastData);
       } catch (err) {
         // Ignore aborted requests — a newer fetch or an unmount canceled this one.
         if ((err as Error).name === 'AbortError') {
           return;
         }
-        console.error((err as Error).message);
-        setError('Could not load the forecast. Please try again.');
+        // The service throws a typed error when the location has no forecast;
+        // surface its message and fall back to a generic message otherwise.
+        setError(
+          err instanceof ForecastUnavailableError
+            ? err.message
+            : 'Could not load the forecast. Please try again.'
+        );
       } finally {
         // Skip the loading reset for aborted requests so a newer fetch keeps its own loading state.
         if (!abortController.signal.aborted) {
@@ -96,7 +75,7 @@ export const useWeatherForecast = (position: LatLngExpression | null) => {
     return () => {
       abortController.abort();
     };
-  }, [position]);
+  }, [position, weather]);
 
   return { forecast, loading, error };
 };
