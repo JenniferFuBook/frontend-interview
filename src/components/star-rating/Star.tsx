@@ -16,6 +16,7 @@ export const Star = ({
   return (
     <span
       data-star-index={index} // Assign a data attribute for star identification
+      aria-hidden="true" // Decorative: the slider container conveys the rating to assistive technology.
       style={{
         color: fill ? activeColor : inactiveColor, // Conditional coloring (active vs inactive)
         fontSize: starSize, // Control size of the star
