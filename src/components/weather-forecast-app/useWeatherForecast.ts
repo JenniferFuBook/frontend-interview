@@ -12,8 +12,8 @@ import { useEffect, useState } from 'react';
  * - Re-fetch automatically whenever position changes.
  * - Abort in-flight requests when position changes or the component unmounts,
  *   preventing stale responses from overwriting newer state.
- * - Positions outside the United States will fail at the metadata step;
- *   surface the error state to the caller for display in the UI.
+ * - Points the service cannot forecast (abroad or over the ocean) return a 404
+ *   at the metadata step; surface a friendly error state for display in the UI.
  */
 export const useWeatherForecast = (position: LatLngExpression | null) => {
   // Hold the parsed forecast response once the two-step fetch completes.
@@ -48,16 +48,18 @@ export const useWeatherForecast = (position: LatLngExpression | null) => {
           { signal: abortController.signal },
         );
         if (!metadataRes.ok) {
-          console.error('Failed to fetch weather metadata');
-          setError('Failed to fetch weather metadata.');
+          setError(
+            metadataRes.status === 404
+              ? 'No forecast is available for this location.'
+              : 'Could not load the forecast. Please try again.'
+          );
           return;
         }
 
         const metadata = await metadataRes.json();
 
         if (!metadata.properties.forecastHourly) {
-          console.error('Failed to fetch metadata json value');
-          setError('Failed to fetch metadata json value.');
+          setError('Could not load the forecast. Please try again.');
           return;
         }
 
@@ -66,8 +68,7 @@ export const useWeatherForecast = (position: LatLngExpression | null) => {
           signal: abortController.signal,
         });
         if (!forecastRes.ok) {
-          console.error('Failed to fetch hourly forecast');
-          setError('Failed to fetch hourly forecast.');
+          setError('Could not load the forecast. Please try again.');
           return;
         }
 
@@ -80,7 +81,7 @@ export const useWeatherForecast = (position: LatLngExpression | null) => {
           return;
         }
         console.error((err as Error).message);
-        setError('Failed to fetch forecast.');
+        setError('Could not load the forecast. Please try again.');
       } finally {
         // Skip the loading reset for aborted requests so a newer fetch keeps its own loading state.
         if (!abortController.signal.aborted) {

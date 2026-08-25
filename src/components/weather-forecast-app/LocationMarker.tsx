@@ -59,7 +59,7 @@ export const LocationMarker = () => {
         {loading ? (
           <div>Loading...</div>
         ) : error ? (
-          <div>Unable to retrieve weather forecasts outside the United States.</div>
+          <div>{error}</div>
         ) : (
           forecast && <WeatherForecastDisplay forecast={forecast} />
         )}
