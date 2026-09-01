@@ -38,11 +38,11 @@ exports[`BlogPostExample > matches snapshot 1`] = `
     </article>
   </main>
   <footer>
-    <p>
+    <small>
       © 2025 - 
       2026
        Funneling Technique. All rights reserved.
-    </p>
+    </small>
   </footer>
 </div>
 `;
