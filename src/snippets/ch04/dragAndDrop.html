@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Drag and Drop</title>
+  </head>
+  <body>
+    <div id="draggable" draggable="true">I am draggable.</div>
+    <div id="dropzone">Drop zone</div>
+
+    <script>
+      const dropzone = document.getElementById('dropzone');
+      document.getElementById('draggable').addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('savedId', e.target.id); // Store the dragged element's id
+      });
+      dropzone.addEventListener('dragover', (e) => e.preventDefault()); // Allow the drop
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const id = e.dataTransfer.getData('savedId'); // Retrieve the id on drop
+        dropzone.appendChild(document.getElementById(id)); // Move it into the drop zone
+      });
+    </script>
+  </body>
+</html>
