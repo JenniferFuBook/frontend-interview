@@ -3,19 +3,15 @@
 function attachHandler() {
   const largeData = new Array(1_000_000).fill('*');
 
-  function logSize(data) { // Takes the data as a parameter — captures nothing from the scope.
-    console.log(data.length);
-  }
-  logSize(largeData);
-
   function handler() {
-    console.log('clicked'); // References nothing from the outer scope.
+    console.log(largeData.length); // The handler needs largeData, so it legitimately closes over it.
   }
 
   document.addEventListener('click', handler);
 
-  return () => document.removeEventListener('click', handler); // Cleanup function.
+  return () => document.removeEventListener('click', handler); // Cleanup function removes the listener.
 }
 
-// largeData is collected when attachHandler returns; call cleanup() to remove the listener.
+// Remove the listener to make handler unreachable, releasing largeData for collection.
 const cleanup = attachHandler();
+cleanup();
