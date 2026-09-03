@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 
-type useDebounceProps<T> = {
+type UseDebounceProps<T> = {
   value: T; // The input value to debounce
   delay?: number; // Optional debounce delay in milliseconds (default: 500ms)
 };
 
-const useDebounce = <T>({ value, delay = 500 }: useDebounceProps<T>): T => {
+const useDebounce = <T>({ value, delay = 500 }: UseDebounceProps<T>): T => {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const useDebounce = <T>({ value, delay = 500 }: useDebounceProps<T>): T => {
 
     // Clean up timeout on value or delay change
     return () => clearTimeout(handler);
-  }, [value, delay, setDebouncedValue]);
+  }, [value, delay]);
 
   return debouncedValue;
 };
