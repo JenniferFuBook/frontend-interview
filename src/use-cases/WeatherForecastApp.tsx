@@ -6,7 +6,7 @@
  */
 import { MapDisplay } from '../components/weather-forecast-app/MapDisplay';
 import { PositionProvider } from '../components/weather-forecast-app/PositionContext';
-import { ServicesProvider } from '../components/weather-forecast-app/useServices';
+import { ServicesProvider } from '../components/weather-forecast-app/ServicesProvider';
 import 'leaflet/dist/leaflet.css';
 import '../components/weather-forecast-app/index.css';
 

@@ -11,28 +11,18 @@ import {
  * Defaults to the production services; a test or preview can supply mocks via
  * the `services` prop on ServicesProvider without touching the components.
  */
-const defaultServices: WeatherAppServices = {
+export const defaultServices: WeatherAppServices = {
   location: nominatimLocationService,
   weather: nwsWeatherService,
 };
 
-const ServicesContext = createContext<WeatherAppServices>(defaultServices);
+export const ServicesContext =
+  createContext<WeatherAppServices>(defaultServices);
 
-type ServicesProviderProps = {
+export type ServicesProviderProps = {
   children: ReactNode;
   // Override the production services, e.g. with in-memory mocks in tests.
   services?: WeatherAppServices;
-};
-
-export const ServicesProvider = ({
-  children,
-  services = defaultServices,
-}: ServicesProviderProps) => {
-  return (
-    <ServicesContext.Provider value={services}>
-      {children}
-    </ServicesContext.Provider>
-  );
 };
 
 // Access the injected location and weather services.
