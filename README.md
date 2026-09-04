@@ -90,6 +90,13 @@ A standalone snippet can also be executed directly, for example:
 node src/snippets/ch05/closureExample.js
 ```
 
+### Verify every branch
+This repository keeps one branch per stage of the star rating case study (`main`, `initial-version`, `toggle-rating`, `half-star`, `animation`). To run the full suite against every local branch in turn, pass `--allBranches`:
+```
+npm run testAll -- --allBranches
+```
+The working tree must be clean. The command checks out each branch, runs the four checks, returns to the branch it started on, and prints a per-branch pass/fail summary.
+
 ## Examples by chapter
 | Chapter | Examples (`VITE_NAME=`) |
 |---|---|

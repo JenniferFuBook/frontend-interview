@@ -15,7 +15,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "snippets": "node scripts/run-snippets.mjs",
-    "testAll": "npm run build && npm run lint && npm test && npm run snippets"
+    "testAll": "node scripts/test-all.mjs"
   },
   "dependencies": {
     "@mantine/core": "^9.4.1",
