@@ -1,0 +1,28 @@
+name: CI
+
+# Runs automatically on every push and every pull request, and can also be
+# started by hand from the repository's Actions tab ("Run workflow").
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Build, lint, test, and run snippets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24 # current LTS; satisfies the repo's >=22.22 floor
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify everything
+        run: npm run testAll # build (tsc + vite) -> lint -> test -> snippets
