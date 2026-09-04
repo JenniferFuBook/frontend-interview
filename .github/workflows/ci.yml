@@ -22,7 +22,10 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        # npm install (not npm ci) so optional, platform-specific wasm-fallback
+        # deps resolve on the Linux runner; a macOS-generated lockfile cannot
+        # list the Linux-only optional packages that npm ci strictly requires.
+        run: npm install --no-audit --no-fund
 
       - name: Verify everything
         run: npm run testAll # build (tsc + vite) -> lint -> test -> snippets
